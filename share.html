@@ -1,0 +1,383 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ศูนย์แลกเปลี่ยนเรียนรู้ - En-Code</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Prompt:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Prompt', sans-serif;
+            background-color: #f0f7ff;
+        }
+        .gradient-bg-header {
+            background: linear-gradient(135deg, #1e40af 0%, #3b82f6 100%);
+        }
+        .chat-container-wrapper {
+            /* Adjusted to be more flexible within the main content area */
+            display: flex;
+            flex-direction: column;
+            overflow: hidden; /* Important for containing flex children */
+            height: calc(100vh - 230px); /* Approximate height: viewport - header - footer - some padding */
+            min-height: 500px; /* Ensure a decent minimum height */
+        }
+        .chat-messages {
+            flex-grow: 1;
+            overflow-y: auto;
+            padding-bottom: 1rem; /* Space for the last message */
+        }
+        .badge-glow {
+            animation: glow 2s infinite alternate;
+        }
+        @keyframes glow {
+            from { box-shadow: 0 0 3px -3px #f59e0b; }
+            to { box-shadow: 0 0 8px 2px #f59e0b; }
+        }
+        #nav-hub { /* Active nav link style */
+            color: #bfdbfe;
+            font-weight: 600;
+            border-bottom: 2px solid #bfdbfe;
+        }
+        /* Scrollbar styling for chat messages (optional, for better aesthetics) */
+        .chat-messages::-webkit-scrollbar {
+            width: 8px;
+        }
+        .chat-messages::-webkit-scrollbar-track {
+            background: #edf2f7; /* Tailwind gray-200 */
+            border-radius: 10px;
+        }
+        .chat-messages::-webkit-scrollbar-thumb {
+            background: #a0aec0; /* Tailwind gray-500 */
+            border-radius: 10px;
+        }
+        .chat-messages::-webkit-scrollbar-thumb:hover {
+            background: #718096; /* Tailwind gray-600 */
+        }
+    </style>
+</head>
+<body class="min-h-screen flex flex-col">
+    <header class="gradient-bg-header text-white shadow-lg">
+        <div class="container mx-auto px-4 py-6">
+            <div class="flex flex-col md:flex-row justify-between items-center">
+                <div class="flex items-center mb-4 md:mb-0">
+                    <a href="index.html" class="text-3xl font-bold flex items-center">
+                        <span class="text-4xl mr-2">🌱</span>
+                        <span>En-Code</span>
+                    </a>
+                </div>
+                <nav class="flex flex-wrap items-center space-x-4 md:space-x-6" id="main-navbar">
+                    <a href="index.html" id="nav-home"
+                        class="hover:text-blue-200 transition nav-item-static">หน้าหลัก</a>
+                    <a href="mission.html" id="nav-missions"
+                        class="hover:text-blue-200 transition nav-item-static">ภารกิจ</a>
+                    <a href="resources.html" id="nav-resources"
+                        class="hover:text-blue-200 transition nav-item-static">แหล่งเรียนรู้</a>
+                    <a href="share.html" id="nav-hub"
+                        class="hover:text-blue-200 transition nav-item-static">ศูนย์แลกเปลี่ยน</a>
+                    <a href="ai_assistant.html" id="nav-ai" class="hover:text-blue-200 transition nav-item-static">AI
+                        ผู้ช่วย</a>
+                    <a href="challenge.html" id="nav-coach"
+                        class="hover:text-blue-200 transition nav-item-static">โค้ชทดสอบ</a>
+                </nav>
+            </div>
+        </div>
+    </header>
+
+    <main class="flex-grow container mx-auto px-4 py-6">
+        <div class="flex flex-col md:flex-row gap-6 h-full">
+            <!-- Sidebar -->
+            <div class="w-full md:w-1/4 flex-shrink-0">
+                <div class="bg-white rounded-lg shadow-md p-4 mb-6">
+                    <h2 class="text-lg font-semibold text-blue-800 mb-4">ห้องสนทนา</h2>
+                    <ul class="space-y-2" id="chat-room-list">
+                        <li>
+                            <button class="room-button w-full text-left px-4 py-2 rounded-md bg-blue-100 text-blue-800 font-medium flex items-center justify-between" data-room="ห้องโค้ดเครื่องคิดเลข" data-members="12">
+                                <span>ห้องโค้ดเครื่องคิดเลข</span>
+                                <span class="count-badge bg-blue-600 text-white text-xs px-2 py-1 rounded-full">12</span>
+                            </button>
+                        </li>
+                        <li>
+                            <button class="room-button w-full text-left px-4 py-2 rounded-md hover:bg-blue-50 text-gray-700 flex items-center justify-between" data-room="ห้องทายเลข" data-members="5">
+                                <span>ห้องทายเลข</span>
+                                <span class="count-badge bg-gray-200 text-gray-700 text-xs px-2 py-1 rounded-full">5</span>
+                            </button>
+                        </li>
+                        <li>
+                            <button class="room-button w-full text-left px-4 py-2 rounded-md hover:bg-blue-50 text-gray-700 flex items-center justify-between" data-room="ห้องสร้างเกม" data-members="8">
+                                <span>ห้องสร้างเกม</span>
+                                <span class="count-badge bg-gray-200 text-gray-700 text-xs px-2 py-1 rounded-full">8</span>
+                            </button>
+                        </li>
+                        <li>
+                            <button class="room-button w-full text-left px-4 py-2 rounded-md hover:bg-blue-50 text-gray-700 flex items-center justify-between" data-room="ห้องแก้ปัญหาโค้ด" data-members="3">
+                                <span>ห้องแก้ปัญหาโค้ด</span>
+                                <span class="count-badge bg-gray-200 text-gray-700 text-xs px-2 py-1 rounded-full">3</span>
+                            </button>
+                        </li>
+                    </ul>
+                </div>
+
+                <div class="bg-white rounded-lg shadow-md p-4">
+                    <h2 class="text-lg font-semibold text-blue-800 mb-4">นักเรียนช่วยเหลือสูงสุด</h2>
+                    <ul class="space-y-3">
+                        <li class="flex items-center justify-between">
+                            <div class="flex items-center space-x-2">
+                                <div class="h-8 w-8 rounded-full bg-green-500 flex items-center justify-center text-white font-bold text-sm">น</div>
+                                <span>นภา</span>
+                            </div>
+                            <div class="flex items-center space-x-1 text-yellow-500">
+                                <span class="text-sm font-medium text-gray-700">12</span>
+                                <span>🎖️</span>
+                            </div>
+                        </li>
+                         <li class="flex items-center justify-between">
+                            <div class="flex items-center space-x-2">
+                                <div class="h-8 w-8 rounded-full bg-purple-500 flex items-center justify-center text-white font-bold text-sm">ป</div>
+                                <span>ปิยะ</span>
+                            </div>
+                            <div class="flex items-center space-x-1 text-yellow-500">
+                                <span class="text-sm font-medium text-gray-700">9</span>
+                                <span>🎖️</span>
+                            </div>
+                        </li>
+                        <li class="flex items-center justify-between">
+                            <div class="flex items-center space-x-2">
+                                <div class="h-8 w-8 rounded-full bg-sky-500 flex items-center justify-center text-white font-bold text-sm">ส</div>
+                                <span>สมชาย</span>
+                            </div>
+                            <div class="flex items-center space-x-1 text-yellow-500">
+                                <span class="text-sm font-medium text-gray-700">3</span>
+                                <span>🎖️</span>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Chat Area -->
+            <div class="w-full md:w-3/4 bg-white rounded-lg shadow-md flex flex-col chat-container-wrapper">
+                <div class="bg-blue-600 text-white px-6 py-3 flex justify-between items-center flex-shrink-0">
+                    <h2 class="text-lg font-semibold" id="chat-room-title">ห้องโค้ดเครื่องคิดเลข</h2>
+                    <div class="flex items-center space-x-2">
+                        <span class="text-sm" id="chat-room-members-display">12 คนกำลังสนทนา</span>
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z" />
+                        </svg>
+                    </div>
+                </div>
+
+                <div class="chat-messages p-4 space-y-4 bg-gray-50" id="chat-area-messages">
+                    <!-- Example Messages (Initial state, can be cleared or replaced by JS) -->
+                    <div class="flex">
+                        <div class="flex items-start space-x-2">
+                            <div class="h-8 w-8 rounded-full bg-red-400 flex items-center justify-center text-white font-bold text-sm flex-shrink-0">ม</div>
+                            <div class="bg-white rounded-lg p-3 shadow-sm max-w-xs md:max-w-md">
+                                <div class="flex items-center space-x-2 mb-1">
+                                    <span class="font-medium text-sm">มานี</span>
+                                    <span class="text-xs text-gray-500">10:15 น.</span>
+                                </div>
+                                <p class="text-sm">สวัสดีค่ะ หนูมีปัญหาเกี่ยวกับการเขียนโค้ดเครื่องคิดเลข ตอนกดปุ่มลบมันไม่ทำงานเลยค่ะ</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="flex justify-end">
+                        <div class="flex items-start space-x-2">
+                             <div class="bg-blue-100 rounded-lg p-3 shadow-sm max-w-xs md:max-w-md order-1">
+                                <div class="flex items-center space-x-2 mb-1">
+                                    <span class="font-medium text-sm">ปิยะ</span>
+                                    <span class="text-xs text-gray-500">10:18 น.</span>
+                                    <span class="bg-amber-100 text-amber-800 text-xs px-1.5 py-0.5 rounded-full flex items-center">
+                                        <span class="mr-1">🎖️</span>9
+                                    </span>
+                                </div>
+                                <p class="text-sm">ลองเช็คฟังก์ชัน subtract ของเธอสิ อาจจะมีปัญหาตรงการรับค่าหรือการคำนวณ ลองแชร์โค้ดมาให้ดูหน่อยได้ไหม</p>
+                            </div>
+                            <div class="h-8 w-8 rounded-full bg-purple-500 flex items-center justify-center text-white font-bold text-sm flex-shrink-0 order-2 ml-2">ป</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="bg-white p-4 border-t flex-shrink-0">
+                    <div class="flex space-x-2">
+                        <button class="p-2 rounded-full text-gray-500 hover:bg-gray-100" title="แนบไฟล์">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.172 7l-6.586 6.586a2 2 0 102.828 2.828l6.414-6.586a4 4 0 00-5.656-5.656l-6.415 6.585a6 6 0 108.486 8.486L20.5 13" /></svg>
+                        </button>
+                         <button class="p-2 rounded-full text-gray-500 hover:bg-gray-100" title="อิโมจิ">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14.828 14.828a4 4 0 01-5.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
+                        </button>
+                        <input type="text" id="message-input" class="flex-grow border rounded-full px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm" placeholder="พิมพ์ข้อความของคุณ...">
+                        <button id="send-message-btn" class="px-4 py-2 bg-blue-600 text-white rounded-full hover:bg-blue-700 flex items-center text-sm">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8" />
+                            </svg>
+                            ส่ง
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer class="bg-blue-900 text-white py-10 px-4">
+        <div class="container mx-auto">
+            <div class="flex flex-col md:flex-row justify-between items-center">
+                <div class="mb-6 md:mb-0">
+                    <div class="text-2xl font-bold flex items-center"><span
+                            class="text-3xl mr-2">🌱</span><span>En-Code</span></div>
+                    <p class="text-blue-200 mt-2">พื้นที่เรียนรู้ภาษา C สำหรับนักเรียน ม.4</p>
+                </div>
+                <div class="flex space-x-8">
+                    <div>
+                        <h4 class="font-medium mb-3">เกี่ยวกับเรา</h4>
+                        <ul class="space-y-2 text-blue-200">
+                            <li><a href="#" class="hover:text-white transition">ทีมงาน</a></li>
+                            <li><a href="#" class="hover:text-white transition">ติดต่อ</a></li>
+                            <li><a href="#" class="hover:text-white transition">คำถามที่พบบ่อย</a></li>
+                        </ul>
+                    </div>
+                    <div>
+                        <h4 class="font-medium mb-3">ทรัพยากร</h4>
+                        <ul class="space-y-2 text-blue-200">
+                            <li><a href="#" class="hover:text-white transition">บทเรียน</a></li>
+                            <li><a href="#" class="hover:text-white transition">คู่มือการใช้งาน</a></li>
+                            <li><a href="#" class="hover:text-white transition">ดาวน์โหลด</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="border-t border-blue-800 mt-8 pt-8 text-center text-blue-300 text-sm">
+                <p>© 2024 En-Code Learning Platform. สงวนลิขสิทธิ์.</p>
+            </div>
+        </div>
+    </footer>
+    <script src="js/main.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const roomButtons = document.querySelectorAll('#chat-room-list .room-button');
+            const chatRoomTitle = document.getElementById('chat-room-title');
+            const chatRoomMembersDisplay = document.getElementById('chat-room-members-display');
+            const messageInput = document.getElementById('message-input');
+            const sendMessageBtn = document.getElementById('send-message-btn');
+            const chatAreaMessages = document.getElementById('chat-area-messages');
+
+            // Dummy user data - in a real app, this would come from login
+            const currentUser = {
+                name: "สมชาย", // Or fetched from sessionStorage/localStorage if logged in
+                avatarInitial: "ส",
+                avatarBgColor: "bg-sky-500", // Tailwind class
+                points: 3 
+            };
+
+            function switchRoom(button) {
+                // Remove active styles from all buttons
+                roomButtons.forEach(btn => {
+                    btn.classList.remove('bg-blue-100', 'text-blue-800');
+                    btn.classList.add('hover:bg-blue-50', 'text-gray-700');
+                    const badge = btn.querySelector('.count-badge');
+                    if (badge) {
+                        badge.classList.remove('bg-blue-600', 'text-white');
+                        badge.classList.add('bg-gray-200', 'text-gray-700');
+                    }
+                });
+
+                // Add active styles to the clicked button
+                button.classList.add('bg-blue-100', 'text-blue-800');
+                button.classList.remove('hover:bg-blue-50', 'text-gray-700');
+                const badge = button.querySelector('.count-badge');
+                if (badge) {
+                    badge.classList.add('bg-blue-600', 'text-white');
+                    badge.classList.remove('bg-gray-200', 'text-gray-700');
+                }
+
+                // Update chat room title and member count
+                const roomName = button.dataset.room;
+                const memberCount = button.dataset.members;
+                if(chatRoomTitle) chatRoomTitle.textContent = roomName;
+                if(chatRoomMembersDisplay) chatRoomMembersDisplay.textContent = `${memberCount} คนกำลังสนทนา`;
+
+                // Clear previous messages and load new ones (dummy load for now)
+                if(chatAreaMessages) chatAreaMessages.innerHTML = `<p class="text-center text-gray-500 text-sm italic p-4">ยินดีต้อนรับสู่ ${roomName}!</p>`;
+                scrollToBottom();
+            }
+
+            roomButtons.forEach(button => {
+                button.addEventListener('click', function() {
+                    switchRoom(this);
+                });
+            });
+
+            function addMessageToChat(message, userName, userInitial, userAvatarBg, userPoints, isCurrentUser = false) {
+                if (!chatAreaMessages) return;
+
+                const now = new Date();
+                const timeString = `${now.getHours().toString().padStart(2, '0')}:${now.getMinutes().toString().padStart(2, '0')} น.`;
+
+                const messageDiv = document.createElement('div');
+                messageDiv.classList.add('flex', isCurrentUser ? 'justify-end' : 'justify-start');
+                
+                let pointsBadge = '';
+                if (userPoints > 0) {
+                    pointsBadge = `
+                        <span class="bg-amber-100 text-amber-800 text-xs px-1.5 py-0.5 rounded-full flex items-center ${userPoints >= 10 ? 'badge-glow' : ''}">
+                            <span class="mr-1">🎖️</span>${userPoints}
+                        </span>`;
+                }
+
+                messageDiv.innerHTML = `
+                    <div class="flex items-start space-x-2">
+                        ${!isCurrentUser ? `<div class="h-8 w-8 rounded-full ${userAvatarBg} flex items-center justify-center text-white font-bold text-sm flex-shrink-0">${userInitial}</div>` : ''}
+                        <div class="rounded-lg p-3 shadow-sm max-w-xs md:max-w-md ${isCurrentUser ? 'bg-blue-500 text-white order-1' : 'bg-white order-2'}">
+                            <div class="flex items-center space-x-2 mb-1 ${isCurrentUser ? 'justify-end' : ''}">
+                                ${isCurrentUser ? pointsBadge : ''}
+                                <span class="font-medium text-sm">${userName}</span>
+                                <span class="text-xs ${isCurrentUser ? 'text-blue-200' : 'text-gray-500'}">${timeString}</span>
+                                ${!isCurrentUser ? pointsBadge : ''}
+                            </div>
+                            <p class="text-sm">${message.replace(/\n/g, "<br>")}</p>
+                        </div>
+                        ${isCurrentUser ? `<div class="h-8 w-8 rounded-full ${userAvatarBg} flex items-center justify-center text-white font-bold text-sm flex-shrink-0 order-2 ml-2">${userInitial}</div>` : ''}
+                    </div>
+                `;
+                chatAreaMessages.appendChild(messageDiv);
+                scrollToBottom();
+            }
+            
+            function scrollToBottom() {
+                 if(chatAreaMessages) chatAreaMessages.scrollTop = chatAreaMessages.scrollHeight;
+            }
+
+            function handleSendMessage() {
+                const messageText = messageInput.value.trim();
+                if (messageText === '') return;
+
+                addMessageToChat(messageText, currentUser.name, currentUser.avatarInitial, currentUser.avatarBgColor, currentUser.points, true);
+                messageInput.value = '';
+
+                // Simulate AI/other user response (for demo)
+                setTimeout(() => {
+                    const responses = ["เข้าใจเลยครับ!", "น่าสนใจมากครับ", "ผมก็คิดแบบนั้นเหมือนกัน", "ช่วยอธิบายเพิ่มได้ไหมครับ?"];
+                    const randomResponse = responses[Math.floor(Math.random() * responses.length)];
+                    const randomUser = Math.random() > 0.5 ? 
+                        {name: "นภา", initial: "น", bg: "bg-green-500", points: 12} : 
+                        {name: "ปิยะ", initial: "ป", bg: "bg-purple-500", points: 9};
+                    addMessageToChat(randomResponse, randomUser.name, randomUser.initial, randomUser.bg, randomUser.points, false);
+                }, 1000 + Math.random() * 1000);
+            }
+
+            if (sendMessageBtn && messageInput) {
+                sendMessageBtn.addEventListener('click', handleSendMessage);
+                messageInput.addEventListener('keypress', function(e) {
+                    if (e.key === 'Enter' && !e.shiftKey) { // Send on Enter, allow Shift+Enter for newline
+                        e.preventDefault();
+                        handleSendMessage();
+                    }
+                });
+            }
+            
+            // Initial setup
+            scrollToBottom();
+        });
+    </script>
+</body>
+</html>

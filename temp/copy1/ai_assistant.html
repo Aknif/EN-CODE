@@ -1,0 +1,338 @@
+<!DOCTYPE html>
+<html lang="th">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI ผู้ช่วยเหลือ - En-Code</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Prompt:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Prompt', sans-serif;
+            background-color: #f0f7ff;
+        }
+
+        .gradient-bg-header {
+            background: linear-gradient(135deg, #1e40af 0%, #3b82f6 100%);
+        }
+
+        .chat-bubble-container {
+            display: flex;
+            margin-bottom: 1rem;
+            align-items: flex-end;
+        }
+
+        .chat-bubble-container.user {
+            justify-content: flex-end;
+        }
+
+        .chat-bubble-container.ai {
+            justify-content: flex-start;
+        }
+
+        .chat-bubble {
+            position: relative;
+            border-radius: 0.75rem;
+            padding: 0.75rem 1rem;
+            box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+            max-width: 75%;
+            word-wrap: break-word;
+        }
+
+        .user-bubble {
+            background-color: #DBEAFE;
+            color: #1E3A8A;
+        }
+
+        .ai-bubble {
+            background-color: #FFFFFF;
+            color: #374151;
+        }
+
+        .chat-bubble::after {
+            content: '';
+            position: absolute;
+            bottom: 8px;
+            width: 0;
+            height: 0;
+            border-style: solid;
+        }
+
+        .user-bubble::after {
+            right: -8px;
+            border-width: 7px 0 7px 10px;
+            border-color: transparent transparent transparent #DBEAFE;
+        }
+
+        .ai-bubble::after {
+            left: -8px;
+            border-width: 7px 10px 7px 0;
+            border-color: transparent #FFFFFF transparent transparent;
+        }
+
+        .avatar-container {
+            width: 2.5rem;
+            height: 2.5rem;
+            border-radius: 9999px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+        }
+
+        .user-avatar {
+            background-color: #93C5FD;
+            margin-left: 0.75rem;
+        }
+
+        .ai-avatar {
+            background-color: #3B82F6;
+            margin-right: 0.75rem;
+        }
+
+        #chat-area {
+            height: 65vh;
+        }
+
+        #nav-ai {
+            color: #bfdbfe;
+            font-weight: 600;
+            border-bottom: 2px solid #bfdbfe;
+        }
+    </style>
+</head>
+
+<body class="min-h-screen flex flex-col">
+    <!-- Common Header -->
+    <header class="gradient-bg-header text-white shadow-lg">
+        <div class="container mx-auto px-4 py-6">
+            <div class="flex flex-col md:flex-row justify-between items-center">
+                <div class="flex items-center mb-4 md:mb-0">
+                    <a href="index.html" class="text-3xl font-bold flex items-center">
+                        <span class="text-4xl mr-2">🌱</span>
+                        <span>En-Code</span>
+                    </a>
+                </div>
+                <nav class="flex flex-wrap items-center space-x-4 md:space-x-6" id="main-navbar">
+                    <a href="index.html" id="nav-home"
+                        class="hover:text-blue-200 transition nav-item-static">หน้าหลัก</a>
+                    <a href="missions.html" id="nav-missions"
+                        class="hover:text-blue-200 transition nav-item-auth">ภารกิจ</a> <!-- เปลี่ยนเป็น auth -->
+                    <a href="resources.html" id="nav-resources"
+                        class="hover:text-blue-200 transition nav-item-auth">แหล่งเรียนรู้</a> <!-- เปลี่ยนเป็น auth -->
+                    <a href="hub.html" id="nav-hub"
+                        class="hover:text-blue-200 transition nav-item-auth">ศูนย์แลกเปลี่ยน</a>
+                    <a href="ai_assistant.html" id="nav-ai" class="hover:text-blue-200 transition nav-item-auth">AI
+                        ผู้ช่วย</a>
+                    <a href="testing_coach.html" id="nav-coach"
+                        class="hover:text-blue-200 transition nav-item-auth">โค้ชทดสอบ</a>
+                </nav>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content (เหมือนเดิมกับไฟล์ที่คุณให้มาล่าสุด) -->
+    <main class="flex-grow">
+        <div class="container mx-auto px-4 py-8 max-w-5xl">
+            <div class="bg-white rounded-xl shadow-lg p-6 mb-8">
+                <div class="flex items-center justify-between">
+                    <div class="flex items-center space-x-4">
+                        <div class="bg-blue-500 rounded-full p-3"><svg xmlns="http://www.w3.org/2000/svg"
+                                class="h-8 w-8 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+                            </svg></div>
+                        <div>
+                            <h1 class="text-2xl font-semibold text-gray-800">AI ผู้ช่วยเหลือ (Gemini)</h1>
+                            <p class="text-blue-600">โค้ชโค้ดดิ้งส่วนตัวของคุณ</p>
+                        </div>
+                    </div>
+                    <div class="hidden md:block">
+                        <div class="flex items-center space-x-2 text-sm text-gray-600"><span
+                                class="flex items-center"><span
+                                    class="w-3 h-3 bg-green-500 rounded-full mr-1"></span>ออนไลน์</span><span>|</span><span>พร้อมช่วยเหลือ
+                                24/7</span></div>
+                    </div>
+                </div>
+            </div>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <div class="bg-white rounded-xl shadow-lg p-6 md:col-span-1">
+                    <h2 class="text-xl font-semibold text-blue-700 mb-4">ความสามารถ</h2>
+                    <ul class="space-y-4">
+                        <li class="flex items-start">
+                            <div class="bg-blue-100 rounded-full p-2 mr-3"><svg xmlns="http://www.w3.org/2000/svg"
+                                    class="h-5 w-5 text-blue-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2" />
+                                </svg></div>
+                            <div>
+                                <h3 class="font-medium text-gray-800">อธิบายโค้ดทีละบรรทัด</h3>
+                                <p class="text-sm text-gray-600">เข้าใจโค้ดได้ง่ายด้วยคำอธิบายแบบละเอียด</p>
+                            </div>
+                        </li>
+                        <li class="flex items-start">
+                            <div class="bg-blue-100 rounded-full p-2 mr-3"><svg xmlns="http://www.w3.org/2000/svg"
+                                    class="h-5 w-5 text-blue-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        d="M8.228 9c.549-1.165 2.03-2 3.772-2 2.21 0 4 1.343 4 3 0 1.4-1.278 2.575-3.006 2.907-.542.104-.994.54-.994 1.093m0 3h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                                </svg></div>
+                            <div>
+                                <h3 class="font-medium text-gray-800">คำถามกระตุ้นการคิด</h3>
+                                <p class="text-sm text-gray-600">พัฒนาทักษะการแก้ปัญหาด้วยคำถามที่ท้าทาย</p>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+                <div class="md:col-span-2 space-y-6">
+                    <div class="bg-white rounded-xl shadow-lg p-6">
+                        <h2 class="text-xl font-semibold text-blue-700 mb-4">สนทนากับ AI ผู้ช่วย</h2>
+                        <div id="chat-area" class="overflow-y-auto bg-gray-50 p-3 rounded-md">
+                            <div class="chat-bubble-container ai">
+                                <div class="avatar-container ai-avatar"><svg xmlns="http://www.w3.org/2000/svg"
+                                        class="h-6 w-6 text-white" fill="none" viewBox="0 0 24 24"
+                                        stroke="currentColor">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                            d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+                                    </svg></div>
+                                <div class="chat-bubble ai-bubble">
+                                    <p>สวัสดีครับ! ผมคือ Gemini AI ยินดีให้คำแนะนำเกี่ยวกับการเขียนโปรแกรมภาษา C ครับ
+                                        ถามมาได้เลย</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="flex items-center bg-gray-100 rounded-lg p-2 mt-4"><input id="chat-input"
+                                type="text" placeholder="พิมพ์คำถามของคุณที่นี่..."
+                                class="flex-1 bg-transparent border-0 focus:ring-0 outline-none px-3 py-2"><button
+                                id="send-chat-btn"
+                                class="bg-blue-500 text-white rounded-lg px-4 py-2 ml-2 hover:bg-blue-600 transition-colors"><svg
+                                    xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24"
+                                    stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8" />
+                                </svg></button></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Common Footer (เหมือนเดิม) -->
+    <footer class="bg-blue-900 text-white py-10 px-4">
+        <div class="container mx-auto">
+            <div class="flex flex-col md:flex-row justify-between items-center">
+                <div class="mb-6 md:mb-0">
+                    <div class="text-2xl font-bold flex items-center"><span
+                            class="text-3xl mr-2">🌱</span><span>En-Code</span></div>
+                    <p class="text-blue-200 mt-2">พื้นที่เรียนรู้ภาษา C สำหรับนักเรียน ม.4</p>
+                </div>
+                <div class="flex space-x-8">
+                    <div>
+                        <h4 class="font-medium mb-3">เกี่ยวกับเรา</h4>
+                        <ul class="space-y-2 text-blue-200">
+                            <li><a href="#" class="hover:text-white transition">ทีมงาน</a></li>
+                            <li><a href="#" class="hover:text-white transition">ติดต่อ</a></li>
+                            <li><a href="#" class="hover:text-white transition">คำถามที่พบบ่อย</a></li>
+                        </ul>
+                    </div>
+                    <div>
+                        <h4 class="font-medium mb-3">ทรัพยากร</h4>
+                        <ul class="space-y-2 text-blue-200">
+                            <li><a href="#" class="hover:text-white transition">บทเรียน</a></li>
+                            <li><a href="#" class="hover:text-white transition">คู่มือการใช้งาน</a></li>
+                            <li><a href="#" class="hover:text-white transition">ดาวน์โหลด</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="border-t border-blue-800 mt-8 pt-8 text-center text-blue-300 text-sm">
+                <p>© 2024 En-Code Learning Platform. สงวนลิขสิทธิ์.</p>
+            </div>
+        </div>
+    </footer>
+    <script src="js\main.js"></script>
+    <script>
+        // Script for AI Assistant (เหมือนเดิมกับที่คุณให้มาล่าสุด, แต่มีการแก้ไขเล็กน้อยเรื่อง class)
+        document.addEventListener('DOMContentLoaded', function () {
+            const chatInput = document.getElementById('chat-input');
+            const sendChatBtn = document.getElementById('send-chat-btn');
+            const chatArea = document.getElementById('chat-area');
+            let conversationHistory = [];
+
+            function addMessageToChat(text, sender, isThinking = false) {
+                if (!chatArea) { console.error("Chat area ('chat-area') not found."); return; }
+
+                const messageWrapper = document.createElement('div');
+                messageWrapper.className = `chat-bubble-container ${sender}`; // 'user' or 'ai'
+
+                const avatarContainer = document.createElement('div');
+                avatarContainer.className = `avatar-container ${sender === 'user' ? 'user-avatar order-2' : 'ai-avatar order-1'}`;
+                avatarContainer.innerHTML = sender === 'user' ?
+                    `<svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-blue-700" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" /></svg>` :
+                    `<svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" /></svg>`;
+
+                const bubble = document.createElement('div');
+                bubble.className = `chat-bubble ${sender === 'user' ? 'user-bubble order-1' : 'ai-bubble order-2'}`;
+                if (isThinking) { bubble.id = 'thinking-bubble'; }
+                const p = document.createElement('p');
+                p.innerHTML = text.replace(/\n/g, '<br>');
+                bubble.appendChild(p);
+
+                if (sender === 'user') {
+                    messageWrapper.appendChild(bubble);
+                    if (avatarContainer.firstChild) messageWrapper.appendChild(avatarContainer.firstChild);
+                } else {
+                    if (avatarContainer.firstChild) messageWrapper.appendChild(avatarContainer.firstChild);
+                    messageWrapper.appendChild(bubble);
+                }
+                chatArea.appendChild(messageWrapper);
+                chatArea.scrollTop = chatArea.scrollHeight;
+            }
+
+            async function handleSendMessage() {
+                if (!chatInput || !chatArea || !sendChatBtn) { console.error("Chat UI elements not found in handleSendMessage."); return; }
+                const messageText = chatInput.value.trim();
+                if (messageText === '') return;
+
+                addMessageToChat(messageText, 'user');
+                conversationHistory.push({ role: "user", content: messageText });
+                chatInput.value = '';
+                addMessageToChat("กำลังประมวลผล กรุณารอสักครู่...", 'ai', true);
+
+                try {
+                    const response = await fetch('http://127.0.0.1:5000/ask-ai', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json', },
+                        body: JSON.stringify({ prompt: messageText, history: conversationHistory.slice(-6) })
+                    });
+                    const thinkingBubble = document.getElementById('thinking-bubble');
+                    if (thinkingBubble && thinkingBubble.parentNode) {
+                        const wrapper = thinkingBubble.closest('.chat-bubble-container');
+                        if (wrapper) wrapper.remove();
+                    }
+                    if (!response.ok) {
+                        const errorData = await response.json().catch(() => ({ error: "ไม่สามารถอ่านข้อผิดพลาด" }));
+                        throw new Error(errorData.error || `HTTP error! Status: ${response.status}`);
+                    }
+                    const data = await response.json();
+                    addMessageToChat(data.response, 'ai');
+                    conversationHistory.push({ role: "model", content: data.response });
+                } catch (error) {
+                    console.error('Error:', error);
+                    const thinkingBubbleOnError = document.getElementById('thinking-bubble');
+                    if (thinkingBubbleOnError && thinkingBubbleOnError.parentNode) {
+                        const wrapper = thinkingBubbleOnError.closest('.chat-bubble-container');
+                        if (wrapper) wrapper.remove();
+                    }
+                    addMessageToChat(`ขออภัย เกิดข้อผิดพลาด: ${error.message}`, 'ai');
+                }
+            }
+            if (chatInput && sendChatBtn && chatArea) {
+                sendChatBtn.addEventListener('click', handleSendMessage);
+                chatInput.addEventListener('keypress', function (e) { if (e.key === 'Enter') { e.preventDefault(); handleSendMessage(); } });
+            } else { console.error("Crucial chat UI elements not found."); }
+        });
+    </script>
+</body>
+
+</html>

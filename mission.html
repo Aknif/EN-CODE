@@ -1,0 +1,354 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ภารกิจการเรียนรู้ - En-Code</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Prompt:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Prompt', sans-serif;
+            background-color: #f0f7ff;
+        }
+        .gradient-bg-header {
+            background: linear-gradient(135deg, #1e40af 0%, #3b82f6 100%);
+        }
+        .mission-card {
+            transition: all 0.3s ease;
+        }
+        .mission-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(59, 130, 246, 0.3);
+        }
+        .badge { /* This badge is for mission cards, top-right */
+            position: absolute;
+            top: 10px; /* Adjusted from -10px */
+            right: 10px; /* Adjusted from -10px */
+            /* animation: pulse 2s infinite; Removed pulse for less distraction if preferred */
+        }
+        /* @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+            100% { transform: scale(1); }
+        } */
+        .modal {
+            transition: opacity 0.3s ease;
+        }
+        .code-block {
+            font-family: monospace;
+            white-space: pre;
+            overflow-x: auto;
+            background-color: #1e293b;
+            color: #e2e8f0;
+            border-radius: 0.5rem;
+            padding: 1rem;
+        }
+        #nav-missions {
+            color: #bfdbfe;
+            font-weight: 600;
+            border-bottom: 2px solid #bfdbfe;
+        }
+    </style>
+</head>
+<body class="min-h-screen flex flex-col">
+    <header class="gradient-bg-header text-white shadow-lg">
+        <div class="container mx-auto px-4 py-6">
+            <div class="flex flex-col md:flex-row justify-between items-center">
+                <div class="flex items-center mb-4 md:mb-0">
+                     <a href="index.html" class="text-3xl font-bold flex items-center">
+                        <span class="text-4xl mr-2">🌱</span>
+                        <span>En-Code</span>
+                    </a>
+                </div>
+                <nav class="flex flex-wrap items-center space-x-4 md:space-x-6" id="main-navbar">
+                    <a href="index.html" id="nav-home"
+                        class="hover:text-blue-200 transition nav-item-static">หน้าหลัก</a>
+                    <a href="mission.html" id="nav-missions"
+                        class="hover:text-blue-200 transition nav-item-static">ภารกิจ</a>
+                    <a href="resources.html" id="nav-resources"
+                        class="hover:text-blue-200 transition nav-item-static">แหล่งเรียนรู้</a>
+                    <a href="share.html" id="nav-hub"
+                        class="hover:text-blue-200 transition nav-item-static">ศูนย์แลกเปลี่ยน</a>
+                    <a href="ai_assistant.html" id="nav-ai" class="hover:text-blue-200 transition nav-item-static">AI
+                        ผู้ช่วย</a>
+                    <a href="challenge.html" id="nav-coach"
+                        class="hover:text-blue-200 transition nav-item-static">โค้ชทดสอบ</a>
+                </nav>
+            </div>
+        </div>
+    </header>
+
+    <main class="flex-grow">
+        <div class="bg-white text-blue-600 py-6 shadow-md">
+            <div class="container mx-auto px-4">
+                <div class="flex flex-col md:flex-row justify-between items-center">
+                    <div class="flex items-center mb-4 md:mb-0">
+                        <div class="bg-blue-100 p-2 rounded-full mr-3">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-blue-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4" />
+                            </svg>
+                        </div>
+                        <h1 class="text-2xl md:text-3xl font-bold">ภารกิจการเรียนรู้</h1>
+                    </div>
+                    <div class="flex items-center space-x-4">
+                        <span class="bg-blue-100 text-blue-800 px-3 py-1 rounded-full text-sm font-medium">นักพัฒนารุ่นเยาว์</span>
+                        <button id="help-btn" class="bg-white text-blue-600 hover:bg-blue-50 px-4 py-2 rounded-lg font-medium flex items-center">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8.228 9c.549-1.165 2.03-2 3.772-2 2.21 0 4 1.343 4 3 0 1.4-1.278 2.575-3.006 2.907-.542.104-.994.54-.994 1.093m0 3h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                            </svg>
+                            วิธีใช้งาน
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="container mx-auto px-4 py-8">
+            <div class="bg-white rounded-xl p-6 shadow-md mb-8">
+                <h2 class="text-xl font-semibold text-blue-800 mb-4">ยินดีต้อนรับสู่ภารกิจการเรียนรู้!</h2>
+                <p class="text-gray-600">คุณได้รับบทเป็น <span class="font-medium text-blue-600">"นักพัฒนารุ่นเยาว์"</span> ที่ได้รับมอบหมายให้สร้างระบบจำลองชีวิตประจำวัน เลือกภารกิจด้านล่างเพื่อเริ่มต้นการเรียนรู้และฝึกฝนทักษะการเขียนโปรแกรม</p>
+            </div>
+
+            <div class="mb-8">
+                <h3 class="text-lg font-semibold text-gray-700 mb-4">ระดับความยาก</h3>
+                <div class="flex flex-wrap gap-4">
+                    <button class="level-btn bg-blue-200 text-blue-800 px-6 py-3 rounded-lg font-medium flex items-center" data-level="beginner"> <!-- Default active -->
+                        <span class="text-xl mr-2">🔰</span>
+                        ระดับต้น
+                    </button>
+                    <button class="level-btn bg-blue-100 hover:bg-blue-200 text-blue-800 px-6 py-3 rounded-lg font-medium flex items-center" data-level="intermediate">
+                        <span class="text-xl mr-2">⚙️</span>
+                        ระดับกลาง
+                    </button>
+                    <button class="level-btn bg-blue-100 hover:bg-blue-200 text-blue-800 px-6 py-3 rounded-lg font-medium flex items-center" data-level="advanced">
+                        <span class="text-xl mr-2">🚀</span>
+                        ระดับสูง
+                    </button>
+                </div>
+            </div>
+
+            <div id="missions-container" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                <!-- Mission cards will be dynamically inserted here -->
+            </div>
+        </div>
+
+        <div id="mission-modal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 hidden modal p-4">
+            <div class="bg-white rounded-xl max-w-3xl w-full max-h-[90vh] overflow-y-auto">
+                <div class="p-6">
+                    <div class="flex justify-between items-center mb-4">
+                        <h3 id="modal-title" class="text-xl font-bold text-blue-800"></h3>
+                        <button id="close-modal" class="text-gray-500 hover:text-gray-700">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                            </svg>
+                        </button>
+                    </div>
+                    <div class="mb-4">
+                        <span id="modal-level-badge" class="inline-block px-3 py-1 rounded-full text-sm font-medium"></span>
+                    </div>
+                    <div id="modal-description" class="text-gray-600 mb-6"></div>
+                    <div class="mb-6">
+                        <h4 class="font-semibold text-blue-700 mb-2">ตัวอย่างโค้ด:</h4>
+                        <div id="modal-code" class="code-block"></div>
+                    </div>
+                    <div class="mb-6">
+                        <h4 class="font-semibold text-blue-700 mb-2">คำแนะนำ:</h4>
+                        <ul id="modal-tips" class="list-disc pl-5 text-gray-600 space-y-1"></ul>
+                    </div>
+                    <div class="mb-6">
+                        <h4 class="font-semibold text-blue-700 mb-2">ความท้าทายเพิ่มเติม:</h4>
+                        <ul id="modal-challenges" class="list-disc pl-5 text-gray-600 space-y-1"></ul>
+                    </div>
+                    <div class="flex justify-end">
+                        <button id="start-mission" class="bg-blue-600 hover:bg-blue-700 text-white px-6 py-2 rounded-lg font-medium">เริ่มภารกิจ</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div id="help-modal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 hidden modal p-4">
+            <div class="bg-white rounded-xl max-w-2xl w-full">
+                <div class="p-6">
+                    <div class="flex justify-between items-center mb-4">
+                        <h3 class="text-xl font-bold text-blue-800">วิธีใช้งาน</h3>
+                        <button id="close-help" class="text-gray-500 hover:text-gray-700">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                            </svg>
+                        </button>
+                    </div>
+                    <div class="text-gray-600 space-y-4">
+                        <p>ยินดีต้อนรับสู่ <span class="font-medium text-blue-600">ภารกิจการเรียนรู้</span> สำหรับนักพัฒนารุ่นเยาว์! นี่คือวิธีการใช้งานแพลตฟอร์มนี้:</p>
+                        <ol class="list-decimal pl-5 space-y-2">
+                            <li>เลือกระดับความยากของภารกิจที่คุณต้องการทำ (ระดับต้น, ระดับกลาง, หรือระดับสูง)</li>
+                            <li>เลือกภารกิจที่คุณสนใจจากรายการที่แสดง</li>
+                            <li>อ่านรายละเอียดภารกิจ, ตัวอย่างโค้ด, และคำแนะนำ</li>
+                            <li>กดปุ่ม "เริ่มภารกิจ" เพื่อเริ่มทำภารกิจ</li>
+                            <li>เขียนโค้ดตามที่ได้รับมอบหมาย และทดสอบการทำงาน</li>
+                        </ol>
+                        <div class="bg-blue-50 p-4 rounded-lg">
+                            <h4 class="font-semibold text-blue-700 mb-2">ระดับความยาก:</h4>
+                            <ul class="space-y-2">
+                                <li><span class="font-medium">🔰 ระดับต้น:</span> การใช้ printf, scanf, ตัวแปร, และโอเปอเรเตอร์</li>
+                                <li><span class="font-medium">⚙️ ระดับกลาง:</span> คำสั่งควบคุมเงื่อนไข (if, if-else, switch)</li>
+                                <li><span class="font-medium">🚀 ระดับสูง:</span> การใช้ลูป (for, while, do-while) และการออกแบบฟังก์ชันง่าย ๆ</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="mt-6 flex justify-end">
+                        <button id="close-help-btn" class="bg-blue-600 hover:bg-blue-700 text-white px-6 py-2 rounded-lg font-medium">เข้าใจแล้ว</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer class="bg-blue-900 text-white py-10 px-4">
+        <div class="container mx-auto">
+            <div class="flex flex-col md:flex-row justify-between items-center">
+                <div class="mb-6 md:mb-0">
+                    <div class="text-2xl font-bold flex items-center">
+                        <span class="text-3xl mr-2">🌱</span>
+                        <span>En-Code</span>
+                    </div>
+                    <p class="text-blue-200 mt-2">พื้นที่เรียนรู้ภาษา C สำหรับนักเรียน ม.4</p>
+                </div>
+                <div class="flex space-x-8">
+                    <div>
+                        <h4 class="font-medium mb-3">เกี่ยวกับเรา</h4>
+                        <ul class="space-y-2 text-blue-200">
+                            <li><a href="#" class="hover:text-white transition">ทีมงาน</a></li>
+                            <li><a href="#" class="hover:text-white transition">ติดต่อ</a></li>
+                            <li><a href="#" class="hover:text-white transition">คำถามที่พบบ่อย</a></li>
+                        </ul>
+                    </div>
+                    <div>
+                        <h4 class="font-medium mb-3">ทรัพยากร</h4>
+                        <ul class="space-y-2 text-blue-200">
+                            <li><a href="#" class="hover:text-white transition">บทเรียน</a></li>
+                            <li><a href="#" class="hover:text-white transition">คู่มือการใช้งาน</a></li>
+                            <li><a href="#" class="hover:text-white transition">ดาวน์โหลด</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="border-t border-blue-800 mt-8 pt-8 text-center text-blue-300 text-sm">
+                <p>© 2024 En-Code Learning Platform. สงวนลิขสิทธิ์.</p>
+            </div>
+        </div>
+    </footer>
+    <script src="js/main.js"></script>
+    <script>
+        const missions = {
+            beginner: [
+                { id: 'b1', title: 'เครื่องคำนวณอย่างง่าย', description: 'สร้างเครื่องคำนวณอย่างง่ายที่รับตัวเลข 2 ตัวและดำเนินการทางคณิตศาสตร์พื้นฐาน (บวก, ลบ, คูณ, หาร)', icon: '🧮', code: `#include <stdio.h>\n\nint main() {\n    float num1, num2;\n    printf("ป้อนตัวเลขที่ 1: ");\n    scanf("%f", &num1);\n    printf("ป้อนตัวเลขที่ 2: ");\n    scanf("%f", &num2);\n    printf("ผลบวก: %.2f\\n", num1 + num2);\n    printf("ผลลบ: %.2f\\n", num1 - num2);\n    printf("ผลคูณ: %.2f\\n", num1 * num2);\n    if (num2 != 0) {\n        printf("ผลหาร: %.2f\\n", num1 / num2);\n    } else {\n        printf("ไม่สามารถหารด้วยศูนย์ได้\\n");\n    }\n    return 0;\n}`, tips: ['ใช้ตัวแปร float', 'ใช้ scanf() รับค่า', 'ใช้ printf() แสดงผล %.2f'], challenges: ['เพิ่ม modulo', 'เพิ่มยกกำลัง', 'ให้ผู้ใช้เลือกการดำเนินการ'] },
+                { id: 'b2', title: 'คำนวณค่าน้ำ', description: 'สร้างโปรแกรมคำนวณค่าน้ำจากจำนวนหน่วยที่ใช้ โดยคิดราคาหน่วยละ 5 บาท', icon: '💧', code: `#include <stdio.h>\n\nint main() {\n    float units, bill;\n    printf("ป้อนจำนวนหน่วยน้ำที่ใช้: ");\n    scanf("%f", &units);\n    bill = units * 5.0;\n    printf("ค่าน้ำที่ต้องจ่าย: %.2f บาท\\n", bill);\n    return 0;\n}`, tips: ['ใช้ float', 'คูณง่ายๆ', 'แสดงผล %.2f'], challenges: ['เพิ่มค่าบริการ', 'เพิ่ม VAT 7%', 'อัตราขั้นบันได'] },
+                { id: 'b3', title: 'แปลงอุณหภูมิ', description: 'สร้างโปรแกรมแปลงอุณหภูมิระหว่างองศาเซลเซียสและองศาฟาเรนไฮต์', icon: '🌡️', code: `#include <stdio.h>\n\nint main() {\n    float celsius, fahrenheit;\n    printf("ป้อนอุณหภูมิในหน่วยองศาเซลเซียส: ");\n    scanf("%f", &celsius);\n    fahrenheit = (celsius * 9.0/5.0) + 32;\n    printf("%.2f C = %.2f F\\n", celsius, fahrenheit);\n    return 0;\n}`, tips: ['สูตร F = (C * 9/5) + 32', 'ระวังลำดับการคำนวณ'], challenges: ['เพิ่มเคลวิน', 'ให้ผู้ใช้เลือกหน่วย', 'แสดงตารางเปรียบเทียบ'] }
+            ],
+            intermediate: [
+                { id: 'i1', title: 'ตรวจสอบเกรด', description: 'สร้างโปรแกรมรับคะแนนและแสดงเกรดตามเกณฑ์ที่กำหนด', icon: '📝', code: `#include <stdio.h>\n\nint main() {\n    int score;\n    printf("ป้อนคะแนน (0-100): ");\n    scanf("%d", &score);\n    if (score < 0 || score > 100) {\n        printf("คะแนนไม่ถูกต้อง\\n");\n    } else if (score >= 80) {\n        printf("เกรด: A\\n");\n    } else if (score >= 70) {\n        printf("เกรด: B\\n");\n    } else if (score >= 60) {\n        printf("เกรด: C\\n");\n    } else if (score >= 50) {\n        printf("เกรด: D\\n");\n    } else {\n        printf("เกรด: F\\n");\n    }\n    return 0;\n}`, tips: ['ใช้ if-else if-else', 'ตรวจสอบข้อมูลนำเข้า', 'เรียงลำดับเงื่อนไข'], challenges: ['เพิ่มเกรด +/-', 'เกรดเฉลี่ยหลายวิชา', 'ข้อความแนะนำตามเกรด'] },
+                { id: 'i2', title: 'คำนวณค่าไฟฟ้า', description: 'สร้างโปรแกรมคำนวณค่าไฟฟ้าแบบขั้นบันได ตามจำนวนหน่วยที่ใช้', icon: '⚡', code: `#include <stdio.h>\n\nint main() {\n    float units, bill = 0;\n    printf("ป้อนจำนวนหน่วยไฟฟ้า: ");\n    scanf("%f", &units);\n    if (units <= 50) bill = units * 3.5;\n    else if (units <= 150) bill = 50*3.5 + (units-50)*4.0;\n    else if (units <= 250) bill = 50*3.5 + 100*4.0 + (units-150)*5.2;\n    else bill = 50*3.5 + 100*4.0 + 100*5.2 + (units-250)*6.5;\n    bill += 50; /* ค่าบริการ */\n    printf("ค่าไฟฟ้า: %.2f บาท\\n", bill);\n    return 0;\n}`, tips: ['ใช้ if-else if-else', 'คำนวณทีละช่วง', 'อย่าลืมค่าบริการ'], challenges: ['เพิ่ม VAT 7%', 'แสดงรายละเอียดแต่ละช่วง', 'เปรียบเทียบกับเดือนก่อน'] },
+                { id: 'i3', title: 'เครื่องคิดเลข (Switch)', description: 'สร้างเครื่องคิดเลขที่ให้ผู้ใช้เลือกการดำเนินการทางคณิตศาสตร์โดยใช้ switch-case', icon: '🔢', code: `#include <stdio.h>\n\nint main() {\n    float n1, n2, res;\n    char op;\n    printf("ป้อน Num1 Op Num2: ");\n    scanf("%f %c %f", &n1, &op, &n2);\n    switch(op) {\n        case '+': res=n1+n2; break;\n        case '-': res=n1-n2; break;\n        case '*': res=n1*n2; break;\n        case '/': if(n2!=0) res=n1/n2; else {printf("Error! Division by zero."); return 1;}\n                  break;\n        default: printf("Error! Operator is not correct"); return 1;\n    }\n    printf("%.2f %c %.2f = %.2f\\n", n1,op,n2,res);\n    return 0;\n}`, tips: ['ใช้ switch-case', 'ตรวจสอบหารด้วยศูนย์', 'scanf(" %c", &op) มี space'], challenges: ['เพิ่มยกกำลัง, modulo', 'ทำงานต่อเนื่อง', 'เพิ่มฟังก์ชันตรีโกณ'] }
+            ],
+            advanced: [
+                { id: 'a1', title: 'เกมทายตัวเลข', description: 'สร้างเกมทายตัวเลขที่สุ่มตัวเลขและให้ผู้เล่นทาย พร้อมบอกใบ้ว่าตัวเลขที่ทายมากไปหรือน้อยไป', icon: '🎮', code: `#include <stdio.h>\n#include <stdlib.h>\n#include <time.h>\n\nint main(){\n    int num, guess, tries=0;\n    srand(time(0));\n    num = rand()%100+1;\n    printf("ทายเลข 1-100\\n");\n    do {\n        printf("ทาย: "); scanf("%d", &guess);\n        tries++;\n        if(guess>num) printf("มากไป\\n");\n        else if(guess<num) printf("น้อยไป\\n");\n        else printf("ถูก! ทาย %d ครั้ง\\n", tries);\n    } while(guess!=num);\n    return 0;\n}`, tips: ['ใช้ rand(), srand(time(0))', 'ใช้ do-while', 'นับจำนวนครั้ง'], challenges: ['จำกัดจำนวนครั้งทาย', 'เลือกช่วงตัวเลข', 'ระบบคะแนน'] },
+                { id: 'a2', title: 'คำนวณดอกเบี้ยทบต้น', description: 'สร้างโปรแกรมคำนวณดอกเบี้ยทบต้นจากเงินต้น อัตราดอกเบี้ย และระยะเวลา', icon: '💰', code: `#include <stdio.h>\n#include <math.h>\n\nint main(){\n    float p, r, t, a; int n;\n    printf("เงินต้น: "); scanf("%f", &p);\n    printf("อัตราดอกเบี้ย (%%): "); scanf("%f", &r);\n    printf("ระยะเวลา (ปี): "); scanf("%f", &t);\n    printf("ทบต้นต่อปี (ครั้ง): "); scanf("%d", &n);\n    r/=100;\n    a = p * pow(1+(r/n), n*t);\n    printf("ยอดรวม: %.2f\\n", a);\n    return 0;\n}`, tips: ['สูตร A = P(1+r/n)^(nt)', 'ใช้ pow() จาก math.h', 'ใช้ loop แสดงตาราง'], challenges: ['ระยะเวลาเงินเพิ่ม 2 เท่า', 'เปรียบเทียบดอกเบี้ยธรรมดา', 'สร้างกราฟแท่ง'] },
+                { id: 'a3', title: 'ระบบจัดการร้านอาหาร', description: 'สร้างระบบสั่งอาหารและคำนวณราคาสำหรับร้านอาหารขนาดเล็ก', icon: '🍽️', code: `/* ... (โค้ดยาวพอสมควร ดูจากไฟล์เดิม) ... */\n#include <stdio.h>\nvoid displayMenu(){printf("\\nMenu:\\n1.Khaopad 60\\n2.Kraprao 65\\n0.End\\n");}\nfloat calcPrice(int c,int q){float p=0; switch(c){case 1:p=60*q;break; case 2:p=65*q;break;} return p;}\nint main(){\n    int choice,qty; float total=0;\n    do{\n        displayMenu();\n        printf("Choice: "); scanf("%d",&choice);\n        if(choice>=1&&choice<=2){printf("Qty: "); scanf("%d",&qty); total+=calcPrice(choice,qty);}\n    }while(choice!=0);\n    printf("Total: %.2f\\n",total);\n    return 0;\n}`, tips: ['แบ่งโค้ดเป็นฟังก์ชัน', 'ใช้อาร์เรย์เก็บรายการ', 'ใช้ do-while สั่งหลายรายการ'], challenges: ['เพิ่มเครื่องดื่ม', 'ส่วนลดตามเงื่อนไข', 'ระบบสมาชิกสะสมแต้ม'] }
+            ]
+        };
+
+        const missionsContainer = document.getElementById('missions-container');
+        const missionModal = document.getElementById('mission-modal');
+        const helpModal = document.getElementById('help-modal');
+        const modalTitle = document.getElementById('modal-title');
+        const modalLevelBadge = document.getElementById('modal-level-badge');
+        const modalDescription = document.getElementById('modal-description');
+        const modalCode = document.getElementById('modal-code');
+        const modalTips = document.getElementById('modal-tips');
+        const modalChallenges = document.getElementById('modal-challenges');
+        const closeModalBtn = document.getElementById('close-modal');
+        const helpBtn = document.getElementById('help-btn');
+        const closeHelp = document.getElementById('close-help'); // Corrected ID
+        const closeHelpBtn = document.getElementById('close-help-btn'); // Corrected ID
+        const levelBtns = document.querySelectorAll('.level-btn');
+        const startMissionBtn = document.getElementById('start-mission');
+
+        function showMissions(level) {
+            missionsContainer.innerHTML = '';
+            missions[level].forEach(mission => {
+                const card = document.createElement('div');
+                card.className = 'mission-card bg-white rounded-xl p-6 shadow-md relative hover:cursor-pointer';
+                card.dataset.id = mission.id;
+                let levelEmoji, levelClass, levelText;
+                if (level === 'beginner') { levelEmoji = '🔰'; levelClass = 'bg-green-100 text-green-800'; levelText = 'ระดับต้น'; }
+                else if (level === 'intermediate') { levelEmoji = '⚙️'; levelClass = 'bg-yellow-100 text-yellow-800'; levelText = 'ระดับกลาง'; }
+                else { levelEmoji = '🚀'; levelClass = 'bg-red-100 text-red-800'; levelText = 'ระดับสูง'; }
+                
+                card.innerHTML = `
+                    <div class="badge ${levelClass} px-3 py-1 rounded-full text-xs font-medium">${levelEmoji} ${levelText}</div>
+                    <div class="flex items-center mb-4 pt-8"> <!-- Added pt-8 to prevent overlap with badge -->
+                        <span class="text-3xl mr-3">${mission.icon}</span>
+                        <h3 class="text-xl font-semibold text-blue-800">${mission.title}</h3>
+                    </div>
+                    <p class="text-gray-600">${mission.description}</p>
+                    <div class="mt-4 flex justify-end">
+                        <button class="view-mission-btn bg-blue-100 hover:bg-blue-200 text-blue-800 px-4 py-2 rounded-lg font-medium">ดูรายละเอียด</button>
+                    </div>`;
+                missionsContainer.appendChild(card);
+                card.querySelector('.view-mission-btn').addEventListener('click', (e) => {
+                    e.stopPropagation(); // Prevent card click from triggering if button is part of card
+                    openMissionModal(mission, level); 
+                });
+                 card.addEventListener('click', () => { // Allow clicking whole card
+                    openMissionModal(mission, level);
+                });
+            });
+        }
+
+        function openMissionModal(mission, level) {
+            let levelEmoji, levelClass, levelText;
+            if (level === 'beginner') { levelEmoji = '🔰'; levelClass = 'bg-green-100 text-green-800'; levelText = 'ระดับต้น'; }
+            else if (level === 'intermediate') { levelEmoji = '⚙️'; levelClass = 'bg-yellow-100 text-yellow-800'; levelText = 'ระดับกลาง'; }
+            else { levelEmoji = '🚀'; levelClass = 'bg-red-100 text-red-800'; levelText = 'ระดับสูง'; }
+            modalTitle.textContent = mission.title;
+            modalLevelBadge.className = `${levelClass} inline-block px-3 py-1 rounded-full text-sm font-medium`;
+            modalLevelBadge.textContent = `${levelEmoji} ${levelText}`;
+            modalDescription.textContent = mission.description;
+            modalCode.textContent = mission.code;
+            modalTips.innerHTML = ''; mission.tips.forEach(tip => { const li = document.createElement('li'); li.textContent = tip; modalTips.appendChild(li); });
+            modalChallenges.innerHTML = ''; mission.challenges.forEach(challenge => { const li = document.createElement('li'); li.textContent = challenge; modalChallenges.appendChild(li); });
+            missionModal.classList.remove('hidden');
+        }
+
+        function closeMissionModal() { missionModal.classList.add('hidden'); }
+        function openHelpModal() { helpModal.classList.remove('hidden'); }
+        function closeHelpModal() { helpModal.classList.add('hidden'); }
+
+        levelBtns.forEach(btn => {
+            btn.addEventListener('click', () => {
+                const level = btn.dataset.level;
+                levelBtns.forEach(b => { b.classList.remove('bg-blue-200'); b.classList.add('bg-blue-100'); });
+                btn.classList.remove('bg-blue-100'); btn.classList.add('bg-blue-200');
+                showMissions(level);
+            });
+        });
+
+        if(closeModalBtn) closeModalBtn.addEventListener('click', closeMissionModal);
+        if(helpBtn) helpBtn.addEventListener('click', openHelpModal);
+        if(closeHelp) closeHelp.addEventListener('click', closeHelpModal); // Changed from closeHelpBtn
+        if(closeHelpBtn) closeHelpBtn.addEventListener('click', closeHelpModal); // Changed from closeHelpBtnAlt
+        if(startMissionBtn) startMissionBtn.addEventListener('click', () => { 
+            alert('เริ่มภารกิจ! (ในระบบจริง ส่วนนี้จะนำทางไปยังหน้าทำภารกิจหรือ IDE จำลอง)'); 
+            closeMissionModal(); 
+        });
+        
+        // Initial load
+        if(missionsContainer && levelBtns.length > 0) {
+            showMissions('beginner'); // Default to beginner
+            // levelBtns[0].classList.add('bg-blue-200'); // Already handled by the click simulation or first button active style
+            // levelBtns[0].classList.remove('bg-blue-100');
+        }
+    </script>
+</body>
+</html>

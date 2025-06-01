@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>En-Code: พื้นที่เรียนรู้ภาษา C</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Prompt:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Prompt', sans-serif;
+            background-color: #f0f7ff;
+        }
+        .gradient-bg {
+            background: linear-gradient(135deg, #1e40af 0%, #3b82f6 100%);
+        }
+        .card-hover:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px -5px rgba(59, 130, 246, 0.4);
+        }
+        .mission-card {
+            background: linear-gradient(135deg, #ffffff 0%, #f0f7ff 100%);
+        }
+        .resource-icon {
+            transition: all 0.3s ease;
+        }
+        .resource-card:hover .resource-icon {
+            transform: scale(1.1);
+        }
+        .code-font {
+            font-family: 'Courier New', monospace;
+        }
+        /* Style for active navigation link */
+        #nav-home {
+            color: #bfdbfe; /* Lighter blue for active */
+            font-weight: 600; /* Semibold */
+            border-bottom: 2px solid #bfdbfe;
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header class="gradient-bg text-white shadow-lg">
+        <div class="container mx-auto px-4 py-6">
+            <div class="flex flex-col md:flex-row justify-between items-center">
+                <div class="flex items-center mb-4 md:mb-0">
+                     <a href="index.html" class="text-3xl font-bold flex items-center">
+                        <span class="text-4xl mr-2">🌱</span>
+                        <span>En-Code</span>
+                    </a>
+                </div>
+                <nav class="flex space-x-6">
+                    <a href="index.html" id="nav-home" class="hover:text-blue-200 transition">หน้าหลัก</a>
+                    <a href="missions.html" id="nav-missions" class="hover:text-blue-200 transition">ภารกิจ</a>
+                    <a href="resources.html" id="nav-resources" class="hover:text-blue-200 transition">แหล่งเรียนรู้</a>
+                    <a href="hub.html" id="nav-hub" class="hover:text-blue-200 transition">ศูนย์แลกเปลี่ยน</a>
+                    <a href="ai_assistant.html" id="nav-ai" class="hover:text-blue-200 transition">AI ผู้ช่วย</a>
+                    <a href="testing_coach.html" id="nav-coach" class="hover:text-blue-200 transition">โค้ชทดสอบ</a>
+                </nav>
+            </div>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="py-16 px-4">
+        <div class="container mx-auto text-center">
+            <h1 class="text-4xl md:text-5xl font-bold text-blue-900 mb-6">ยินดีต้อนรับสู่พื้นที่เรียนรู้ "En-Code"</h1>
+            <p class="text-xl text-blue-800 max-w-3xl mx-auto mb-10">
+                สิ่งแวดล้อมแห่งการเรียนรู้แบบมีชีวิต ที่ผสานแนวคิดคอนสตรัคติวิสต์กับพลัง AI
+                เพื่อพัฒนาทักษะการแก้ปัญหาด้วยภาษา C สำหรับนักเรียน ม.4
+            </p>
+            <div class="flex justify-center">
+                <a href="missions.html" class="bg-blue-600 hover:bg-blue-700 text-white font-medium py-3 px-8 rounded-full shadow-lg hover:shadow-xl transition transform hover:-translate-y-1">
+                    เริ่มต้นการเรียนรู้
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Mission Section (Summary) -->
+    <section id="mission-summary" class="py-16 px-4 bg-white">
+        <div class="container mx-auto">
+            <div class="text-center mb-16">
+                <h2 class="text-3xl font-bold text-blue-900 mb-4">🔍 ภารกิจการเรียนรู้</h2>
+                <p class="text-xl text-blue-700 font-medium">
+                    💡 "ภารกิจของคุณคือการเป็นผู้แก้ปัญหาเชิงตรรกะผ่านภาษา C เพื่อสร้างโปรแกรมที่มีความหมายในโลกจริง"
+                </p>
+            </div>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <!-- Summary Cards -->
+                <div class="mission-card rounded-xl shadow-md p-6 transition duration-300 card-hover">
+                    <div class="text-4xl mb-4">🧩</div>
+                    <h3 class="text-xl font-semibold text-blue-800 mb-3">สถานการณ์จำลอง</h3>
+                    <p class="text-gray-700">ฝึกแก้ปัญหาในสถานการณ์จริง ทำให้การเรียนรู้มีความหมาย</p>
+                </div>
+                <div class="mission-card rounded-xl shadow-md p-6 transition duration-300 card-hover">
+                    <div class="text-4xl mb-4">🔄</div>
+                    <h3 class="text-xl font-semibold text-blue-800 mb-3">คิด วิเคราะห์ สร้างโค้ด</h3>
+                    <p class="text-gray-700">พัฒนาทักษะการคิดเชิงตรรกะและการแก้ปัญหาอย่างเป็นระบบ</p>
+                </div>
+                <div class="mission-card rounded-xl shadow-md p-6 transition duration-300 card-hover">
+                    <div class="text-4xl mb-4">🎯</div>
+                    <h3 class="text-xl font-semibold text-blue-800 mb-3">ผลงานใช้งานได้จริง</h3>
+                    <p class="text-gray-700">วัดความสำเร็จจากการสร้างโปรแกรมที่แก้ปัญหาได้ตามเป้าหมาย</p>
+                </div>
+            </div>
+            <div class="text-center mt-12">
+                <a href="missions.html" class="bg-blue-500 hover:bg-blue-600 text-white font-medium py-2 px-6 rounded-lg transition">
+                    ดูภารกิจทั้งหมด
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Resources Section (Summary) -->
+    <section id="resources-summary" class="py-16 px-4 bg-blue-50">
+        <div class="container mx-auto">
+            <div class="text-center mb-16">
+                <h2 class="text-3xl font-bold text-blue-900 mb-4">📚 แหล่งการเรียนรู้</h2>
+                <p class="text-lg text-blue-700">ทรัพยากรหลากหลายเพื่อการสำรวจอิสระ</p>
+            </div>
+             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+                <div class="bg-white rounded-xl shadow-md p-6 transition duration-300 card-hover resource-card">
+                    <div class="flex justify-center mb-4"><div class="resource-icon bg-blue-100 p-4 rounded-full"><svg xmlns="http://www.w3.org/2000/svg" class="h-10 w-10 text-blue-600" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" /></svg></div></div>
+                    <h3 class="text-xl font-semibold text-blue-800 mb-3 text-center">คลังความรู้</h3>
+                </div>
+                <div class="bg-white rounded-xl shadow-md p-6 transition duration-300 card-hover resource-card">
+                    <div class="flex justify-center mb-4"><div class="resource-icon bg-blue-100 p-4 rounded-full"><svg xmlns="http://www.w3.org/2000/svg" class="h-10 w-10 text-blue-600" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19.428 15.428a2 2 0 00-1.022-.547l-2.387-.477a6 6 0 00-3.86.517l-.318.158a6 6 0 01-3.86.517L6.05 15.21a2 2 0 00-1.806.547M8 4h8l-1 1v5.172a2 2 0 00.586 1.414l5 5c1.26 1.26.367 3.414-1.415 3.414H4.828c-1.782 0-2.674-2.154-1.414-3.414l5-5A2 2 0 009 10.172V5L8 4z" /></svg></div></div>
+                    <h3 class="text-xl font-semibold text-blue-800 mb-3 text-center">Lab จำลอง</h3>
+                </div>
+                 <div class="bg-white rounded-xl shadow-md p-6 transition duration-300 card-hover resource-card">
+                    <div class="flex justify-center mb-4"><div class="resource-icon bg-blue-100 p-4 rounded-full"><svg xmlns="http://www.w3.org/2000/svg" class="h-10 w-10 text-blue-600" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z" /><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z" /></svg></div></div>
+                    <h3 class="text-xl font-semibold text-blue-800 mb-3 text-center">วิดีโอ/แอนิเมชัน</h3>
+                </div>
+                <div class="bg-white rounded-xl shadow-md p-6 transition duration-300 card-hover resource-card">
+                    <div class="flex justify-center mb-4"><div class="resource-icon bg-blue-100 p-4 rounded-full"><svg xmlns="http://www.w3.org/2000/svg" class="h-10 w-10 text-blue-600" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 4a2 2 0 114 0v1a1 1 0 001 1h3a1 1 0 011 1v3a1 1 0 01-1 1h-1a2 2 0 100 4h1a1 1 0 011 1v3a1 1 0 01-1 1h-3a1 1 0 01-1-1v-1a2 2 0 10-4 0v1a1 1 0 01-1 1H7a1 1 0 01-1-1v-3a1 1 0 00-1-1H4a2 2 0 110-4h1a1 1 0 001-1V7a1 1 0 011-1h3a1 1 0 001-1V4z" /></svg></div></div>
+                    <h3 class="text-xl font-semibold text-blue-800 mb-3 text-center">เกม Debug Battle</h3>
+                </div>
+            </div>
+            <div class="text-center mt-12">
+                <a href="resources.html" class="bg-blue-500 hover:bg-blue-600 text-white font-medium py-2 px-6 rounded-lg transition">
+                    สำรวจแหล่งเรียนรู้
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Other sections (Hub, AI, Testing) can be summarized similarly with links to their respective pages -->
+     <section id="hub-summary" class="py-16 px-4 bg-white">
+        <div class="container mx-auto">
+            <div class="text-center mb-16">
+                <h2 class="text-3xl font-bold text-blue-900 mb-4">🤝 ศูนย์แลกเปลี่ยนเรียนรู้</h2>
+                <p class="text-lg text-blue-700">พื้นที่ปลอดภัยในการแลกเปลี่ยนความคิดและแนวทางแก้ปัญหา</p>
+                 <div class="text-center mt-12">
+                    <a href="hub.html" class="bg-blue-500 hover:bg-blue-600 text-white font-medium py-2 px-6 rounded-lg transition">
+                        ไปยังศูนย์แลกเปลี่ยน
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="ai-assistant-summary" class="py-16 px-4 bg-blue-50">
+        <div class="container mx-auto">
+            <div class="text-center mb-16">
+                <h2 class="text-3xl font-bold text-blue-900 mb-4">🤖 AI ผู้ช่วยเหลือ</h2>
+                <p class="text-lg text-blue-700">"โค้ดโค้ช" – เพื่อนคู่คิดของนักเรียน</p>
+                 <div class="text-center mt-12">
+                    <a href="ai_assistant.html" class="bg-blue-500 hover:bg-blue-600 text-white font-medium py-2 px-6 rounded-lg transition">
+                        ปรึกษา AI ผู้ช่วย
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="testing-summary" class="py-16 px-4 bg-white">
+        <div class="container mx-auto">
+            <div class="text-center mb-16">
+                <h2 class="text-3xl font-bold text-blue-900 mb-4">🧪 โค้ชทดสอบ</h2>
+                <p class="text-lg text-blue-700">แบบทดสอบ Interactive ที่สะท้อนความสามารถในการนำความรู้ไปใช้แก้ปัญหา</p>
+                <div class="text-center mt-12">
+                    <a href="testing_coach.html" class="bg-blue-500 hover:bg-blue-600 text-white font-medium py-2 px-6 rounded-lg transition">
+                       เริ่มทำแบบทดสอบ
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+    <!-- Goal Section -->
+    <section class="py-16 px-4 gradient-bg text-white">
+        <div class="container mx-auto text-center">
+            <h2 class="text-3xl font-bold mb-6">🍃 จุดมุ่งหมายสูงสุด</h2>
+            <p class="text-2xl font-light max-w-3xl mx-auto">
+                ✨นักเรียนจะไม่เพียงแค่ "เรียนเขียนโค้ด" แต่จะ "คิดแบบนักเขียนโค้ด" ที่สามารถออกแบบและแก้ปัญหาได้จริง
+            </p>
+            <div class="mt-12">
+                 <a href="missions.html" class="bg-white text-blue-700 hover:bg-blue-100 font-medium py-3 px-8 rounded-full shadow-lg hover:shadow-xl transition transform hover:-translate-y-1">
+                    เริ่มต้นการเดินทาง
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-blue-900 text-white py-10 px-4">
+        <div class="container mx-auto">
+            <div class="flex flex-col md:flex-row justify-between items-center">
+                <div class="mb-6 md:mb-0">
+                    <div class="text-2xl font-bold flex items-center">
+                        <span class="text-3xl mr-2">🌱</span>
+                        <span>En-Code</span>
+                    </div>
+                    <p class="text-blue-200 mt-2">พื้นที่เรียนรู้ภาษา C สำหรับนักเรียน ม.4</p>
+                </div>
+                <div class="flex space-x-8">
+                    <div>
+                        <h4 class="font-medium mb-3">เกี่ยวกับเรา</h4>
+                        <ul class="space-y-2 text-blue-200">
+                            <li><a href="#" class="hover:text-white transition">ทีมงาน</a></li>
+                            <li><a href="#" class="hover:text-white transition">ติดต่อ</a></li>
+                            <li><a href="#" class="hover:text-white transition">คำถามที่พบบ่อย</a></li>
+                        </ul>
+                    </div>
+                    <div>
+                        <h4 class="font-medium mb-3">ทรัพยากร</h4>
+                        <ul class="space-y-2 text-blue-200">
+                            <li><a href="#" class="hover:text-white transition">บทเรียน</a></li>
+                            <li><a href="#" class="hover:text-white transition">คู่มือการใช้งาน</a></li>
+                            <li><a href="#" class="hover:text-white transition">ดาวน์โหลด</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="border-t border-blue-800 mt-8 pt-8 text-center text-blue-300 text-sm">
+                <p>© 2024 En-Code Learning Platform. สงวนลิขสิทธิ์.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Add smooth scrolling for anchor links (if any are used for internal page navigation)
+            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+                if(anchor.getAttribute('href').length > 1) { // check if it's not just "#"
+                    anchor.addEventListener('click', function(e) {
+                        const targetId = this.getAttribute('href');
+                        const targetElement = document.querySelector(targetId);
+                        if (targetElement) {
+                            e.preventDefault();
+                            window.scrollTo({
+                                top: targetElement.offsetTop - 80, // Adjust for fixed header
+                                behavior: 'smooth'
+                            });
+                        }
+                    });
+                }
+            });
+
+            // Add animation for cards on scroll
+            const animateOnScroll = () => {
+                const cards = document.querySelectorAll('.card-hover');
+                cards.forEach(card => {
+                    const cardTop = card.getBoundingClientRect().top;
+                    const windowHeight = window.innerHeight;
+                    if (cardTop < windowHeight - 100) {
+                        card.style.opacity = '1';
+                        card.style.transform = 'translateY(0)';
+                    }
+                });
+            };
+
+            document.querySelectorAll('.card-hover').forEach(card => {
+                card.style.opacity = '0';
+                card.style.transform = 'translateY(20px)';
+            });
+
+            animateOnScroll(); // Run on load
+            window.addEventListener('scroll', animateOnScroll);
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,478 @@
+<!DOCTYPE html>
+<html lang="th">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>แหล่งเรียนรู้ภาษา C - En-Code</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Prompt:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Prompt', sans-serif;
+            background-color: #f0f7ff;
+        }
+
+        .gradient-bg-header {
+            background: linear-gradient(135deg, #1e40af 0%, #3b82f6 100%);
+        }
+
+        .code-block {
+            font-family: monospace;
+            white-space: pre;
+            tab-size: 4;
+        }
+
+        .drag-item {
+            cursor: grab;
+            user-select: none;
+        }
+
+        .drag-item:active {
+            cursor: grabbing;
+        }
+
+        .drop-zone {
+            min-height: 40px;
+            border: 2px dashed #93c5fd;
+            background-color: #eff6ff;
+        }
+
+        /* Lighter blue for dropzone */
+        .drop-zone.highlight {
+            border-color: #3b82f6;
+            background-color: #dbeafe;
+        }
+
+        .video-container {
+            position: relative;
+            padding-bottom: 56.25%;
+            height: 0;
+            overflow: hidden;
+        }
+
+        .video-container iframe {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+        }
+
+        .tab-content {
+            display: none;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        .fill-blank {
+            border-bottom: 2px solid #3b82f6;
+            min-width: 80px;
+            display: inline-block;
+            text-align: center;
+            padding: 0 5px;
+            background-color: #fff;
+        }
+
+        #nav-resources {
+            /* Active nav link style */
+            color: #bfdbfe;
+            font-weight: 600;
+            border-bottom: 2px solid #bfdbfe;
+        }
+    </style>
+</head>
+
+<body class="min-h-screen flex flex-col">
+    <!-- Common Header -->
+    <header class="gradient-bg-header text-white shadow-lg">
+        <div class="container mx-auto px-4 py-6">
+            <div class="flex flex-col md:flex-row justify-between items-center">
+                <div class="flex items-center mb-4 md:mb-0">
+                    <a href="index.html" class="text-3xl font-bold flex items-center">
+                        <span class="text-4xl mr-2">🌱</span>
+                        <span>En-Code</span>
+                    </a>
+                </div>
+                <nav class="flex flex-wrap items-center space-x-4 md:space-x-6" id="main-navbar">
+                    <a href="index.html" id="nav-home"
+                        class="hover:text-blue-200 transition nav-item-static">หน้าหลัก</a>
+                    <a href="missions.html" id="nav-missions"
+                        class="hover:text-blue-200 transition nav-item-auth">ภารกิจ</a> <!-- เปลี่ยนเป็น auth -->
+                    <a href="resources.html" id="nav-resources"
+                        class="hover:text-blue-200 transition nav-item-auth">แหล่งเรียนรู้</a> <!-- เปลี่ยนเป็น auth -->
+                    <a href="hub.html" id="nav-hub"
+                        class="hover:text-blue-200 transition nav-item-auth">ศูนย์แลกเปลี่ยน</a>
+                    <a href="ai_assistant.html" id="nav-ai" class="hover:text-blue-200 transition nav-item-auth">AI
+                        ผู้ช่วย</a>
+                    <a href="testing_coach.html" id="nav-coach"
+                        class="hover:text-blue-200 transition nav-item-auth">โค้ชทดสอบ</a>
+                </nav>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="flex-grow">
+        <nav class="bg-white shadow-md">
+            <div class="container mx-auto px-4">
+                <div class="flex overflow-x-auto py-3 space-x-4" id="tabs">
+                    <button class="tab-btn px-4 py-2 font-medium rounded-md bg-blue-500 text-white"
+                        data-tab="videos">วิดีโอสั้น</button>
+                    <button class="tab-btn px-4 py-2 font-medium rounded-md hover:bg-blue-100 text-gray-700"
+                        data-tab="code-examples">โค้ดตัวอย่าง</button>
+                    <button class="tab-btn px-4 py-2 font-medium rounded-md hover:bg-blue-100 text-gray-700"
+                        data-tab="drag-drop">เกมลาก-วาง</button>
+                    <button class="tab-btn px-4 py-2 font-medium rounded-md hover:bg-blue-100 text-gray-700"
+                        data-tab="debug">วิเคราะห์ข้อผิดพลาด</button>
+                </div>
+            </div>
+        </nav>
+
+        <div class="container mx-auto px-4 py-8">
+            <!-- Video Section -->
+            <section id="videos" class="tab-content active">
+                <h2 class="text-2xl font-semibold text-blue-800 mb-6">วิดีโอสั้นพร้อมคำอธิบายโค้ด</h2>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                    <!-- Video 1 -->
+                    <div class="bg-white rounded-lg shadow-md overflow-hidden">
+                        <div class="video-container">
+                            <div class="bg-blue-100 h-full flex items-center justify-center">
+                                <div class="text-center p-4"><svg xmlns="http://www.w3.org/2000/svg"
+                                        class="h-16 w-16 mx-auto text-blue-500" fill="none" viewBox="0 0 24 24"
+                                        stroke="currentColor">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                            d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z" />
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                            d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                                    </svg>
+                                    <p class="mt-2 text-blue-800">ตัวอย่างวิดีโอ: พื้นฐานการใช้ printf</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="p-4">
+                            <h3 class="font-bold text-lg text-blue-700">พื้นฐานการใช้ printf (2:05)</h3>
+                            <p class="text-gray-600 mt-2">เรียนรู้วิธีการใช้ฟังก์ชัน printf
+                                เพื่อแสดงผลข้อความและตัวแปรในภาษา C</p>
+                            <div class="mt-4 bg-blue-50 p-4 rounded-md">
+                                <h4 class="font-medium text-blue-700">โค้ดในวิดีโอ:</h4>
+                                <pre
+                                    class="code-block bg-gray-800 text-gray-100 p-3 rounded mt-2 text-sm overflow-x-auto">#include <stdio.h>\n\nint main() {\n    int age = 25;\n    float height = 175.5;\n    char name[] = "สมชาย";\n    \n    printf("สวัสดี, ฉันชื่อ %s\\n", name);\n    printf("ฉันอายุ %d ปี และสูง %.1f ซม.\\n", age, height);\n    \n    return 0;\n}</pre>
+                            </div>
+                            <div class="mt-4">
+                                <h4 class="font-medium text-blue-700">คำอธิบายสำคัญ:</h4>
+                                <ul class="list-disc list-inside mt-2 space-y-1 text-gray-700">
+                                    <li>%s ใช้สำหรับแสดงข้อความ (string)</li>
+                                    <li>%d ใช้สำหรับแสดงตัวเลขจำนวนเต็ม (integer)</li>
+                                    <li>%.1f ใช้สำหรับแสดงทศนิยม 1 ตำแหน่ง</li>
+                                    <li>\n คือการขึ้นบรรทัดใหม่</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Video 2 (similar structure) -->
+                    <div class="bg-white rounded-lg shadow-md overflow-hidden">
+                        <div class="video-container">
+                            <div class="bg-blue-100 h-full flex items-center justify-center">
+                                <div class="text-center p-4"><svg xmlns="http://www.w3.org/2000/svg"
+                                        class="h-16 w-16 mx-auto text-blue-500" fill="none" viewBox="0 0 24 24"
+                                        stroke="currentColor">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                            d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z" />
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                            d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                                    </svg>
+                                    <p class="mt-2 text-blue-800">ตัวอย่างวิดีโอ: การใช้ if-else</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="p-4">
+                            <h3 class="font-bold text-lg text-blue-700">การใช้ if-else (1:45)</h3>
+                            <p class="text-gray-600 mt-2">เรียนรู้วิธีการใช้คำสั่งเงื่อนไข if-else
+                                เพื่อควบคุมการทำงานของโปรแกรม</p>
+                            <div class="mt-4 bg-blue-50 p-4 rounded-md">
+                                <h4 class="font-medium text-blue-700">โค้ดในวิดีโอ:</h4>
+                                <pre
+                                    class="code-block bg-gray-800 text-gray-100 p-3 rounded mt-2 text-sm overflow-x-auto">#include <stdio.h>\n\nint main() {\n    int score;\n    printf("กรุณาป้อนคะแนนของคุณ: ");\n    scanf("%d", &score);\n    if (score >= 80) { printf("เกรด A\\n"); }\n    else if (score >= 70) { printf("เกรด B\\n"); }\n    else if (score >= 60) { printf("เกรด C\\n"); }\n    else if (score >= 50) { printf("เกรด D\\n"); }\n    else { printf("เกรด F\\n"); }\n    return 0;\n}</pre>
+                            </div>
+                            <div class="mt-4">
+                                <h4 class="font-medium text-blue-700">คำอธิบายสำคัญ:</h4>
+                                <ul class="list-disc list-inside mt-2 space-y-1 text-gray-700">
+                                    <li>if-else ใช้ตรวจสอบเงื่อนไข</li>
+                                    <li>scanf ใช้รับข้อมูล</li>
+                                    <li>>= คือ "มากกว่าหรือเท่ากับ"</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            <!-- Code Examples Section -->
+            <section id="code-examples" class="tab-content">
+                <h2 class="text-2xl font-semibold text-blue-800 mb-6">โค้ดตัวอย่างพร้อมช่องให้เติม</h2>
+                <div class="bg-white rounded-lg shadow-md p-6">
+                    <h3 class="font-bold text-lg text-blue-700">แบบฝึกหัด 1: การคำนวณพื้นที่สี่เหลี่ยม</h3>
+                    <p class="text-gray-600 mt-2">เติมโค้ดในช่องว่างเพื่อคำนวณพื้นที่ของสี่เหลี่ยมผืนผ้า</p>
+                    <div class="mt-4 bg-blue-50 p-4 rounded-md">
+                        <pre
+                            class="code-block bg-gray-800 text-gray-100 p-3 rounded mt-2 text-sm overflow-x-auto">#include <stdio.h>\n\nint main() {\n    float width, height, area;\n    printf("ป้อนความกว้าง: ");\n    <input type="text" class="fill-blank text-gray-800" data-answer="scanf("%f", &width);" placeholder="คำตอบ..."> ;\n    printf("ป้อนความสูง: ");\n    scanf("%f", &height);\n    <input type="text" class="fill-blank text-gray-800" data-answer="area = width * height;" placeholder="คำตอบ..."> ;\n    printf("พื้นที่ของสี่เหลี่ยมคือ %.2f\\n", area);\n    return 0;\n}</pre>
+                    </div>
+                    <div class="mt-4 flex justify-end"><button id="check-ex1"
+                            class="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-md">ตรวจคำตอบ</button>
+                    </div>
+                    <div id="result-ex1" class="mt-4 hidden p-3 rounded-md"></div>
+                </div>
+            </section>
+            <!-- Drag and Drop Section -->
+            <section id="drag-drop" class="tab-content">
+                <h2 class="text-2xl font-semibold text-blue-800 mb-6">เกมฝึกคำสั่ง C แบบลาก-วาง</h2>
+                <div class="bg-white rounded-lg shadow-md p-6">
+                    <h3 class="font-bold text-lg text-blue-700">เรียงลำดับโค้ดให้ถูกต้อง: โปรแกรมหาค่าสูงสุด</h3>
+                    <p class="text-gray-600 mt-2">ลากบล็อกโค้ดและวางในตำแหน่งที่ถูกต้อง</p>
+                    <div class="mt-6">
+                        <h4 class="font-medium text-blue-700 mb-2">บล็อกโค้ด:</h4>
+                        <div id="code-blocks" class="flex flex-wrap gap-2 mb-6">
+                            <div class="drag-item bg-blue-100 p-2 rounded-md shadow-sm text-xs" draggable="true"
+                                data-order="3">if (num1 > num2 && num1 > num3) { max = num1; }</div>
+                            <div class="drag-item bg-blue-100 p-2 rounded-md shadow-sm text-xs" draggable="true"
+                                data-order="1">#include <stdio.h>\nint main() {</div>
+                            <div class="drag-item bg-blue-100 p-2 rounded-md shadow-sm text-xs" draggable="true"
+                                data-order="6">printf("ค่าสูงสุดคือ %d\\n", max);\nreturn 0;\n}</div>
+                            <div class="drag-item bg-blue-100 p-2 rounded-md shadow-sm text-xs" draggable="true"
+                                data-order="2">int n1, n2, n3, max;\nscanf("%d %d %d", &n1, &n2, &n3);</div>
+                            <div class="drag-item bg-blue-100 p-2 rounded-md shadow-sm text-xs" draggable="true"
+                                data-order="5">else { max = num3; }</div>
+                            <div class="drag-item bg-blue-100 p-2 rounded-md shadow-sm text-xs" draggable="true"
+                                data-order="4">else if (num2 > num1 && num2 > num3) { max = num2; }</div>
+                        </div>
+                        <h4 class="font-medium text-blue-700 mb-2">วางโค้ดที่นี่:</h4>
+                        <div id="drop-container" class="space-y-1">
+                            <div class="drop-zone p-1" data-position="1"></div>
+                            <div class="drop-zone p-1" data-position="2"></div>
+                            <div class="drop-zone p-1" data-position="3"></div>
+                            <div class="drop-zone p-1" data-position="4"></div>
+                            <div class="drop-zone p-1" data-position="5"></div>
+                            <div class="drop-zone p-1" data-position="6"></div>
+                        </div>
+                        <div class="mt-6 flex justify-end"><button id="check-drag"
+                                class="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-md">ตรวจคำตอบ</button>
+                        </div>
+                        <div id="result-drag" class="mt-4 hidden p-3 rounded-md"></div>
+                    </div>
+                </div>
+            </section>
+            <!-- Debug Section -->
+            <section id="debug" class="tab-content">
+                <h2 class="text-2xl font-semibold text-blue-800 mb-6">คลังคำถาม "ทำไมโค้ดนี้ไม่ทำงาน?"</h2>
+                <div class="bg-white rounded-lg shadow-md p-6">
+                    <h3 class="font-bold text-lg text-blue-700">ปัญหาที่ 1: โปรแกรมคำนวณอายุ</h3>
+                    <p class="text-gray-600 mt-2">โค้ดนี้มีข้อผิดพลาด ช่วยหาและแก้ไข</p>
+                    <div class="mt-4 bg-blue-50 p-4 rounded-md">
+                        <pre
+                            class="code-block bg-gray-800 text-gray-100 p-3 rounded mt-2 text-sm overflow-x-auto">#include <stdio.h>\n\nint main() {\n    int birthYear, currentYear, age;\n    printf("ป้อนปีเกิด: "); scanf("%d", birthYear);\n    printf("ป้อนปีปัจจุบัน: "); scanf("%d", ¤tYear);\n    age = currentYear - birthyear;\n    printf("อายุ: %f ปี\\n", age);\n    return 0;\n}</pre>
+                    </div>
+                    <div class="mt-4">
+                        <h4 class="font-medium text-blue-700">ข้อผิดพลาดที่พบ:</h4>
+                        <div class="mt-2">
+                            <div class="flex items-start space-x-2 mb-2"><input type="checkbox" id="error1-1"
+                                    class="mt-1 error-checkbox"><label for="error1-1" class="text-gray-700">ขาด & ใน
+                                    scanf birthYear</label></div>
+                            <div class="flex items-start space-x-2 mb-2"><input type="checkbox" id="error1-2"
+                                    class="mt-1 error-checkbox"><label for="error1-2" class="text-gray-700">สะกด
+                                    birthyear ผิด</label></div>
+                            <div class="flex items-start space-x-2 mb-2"><input type="checkbox" id="error1-3"
+                                    class="mt-1 error-checkbox"><label for="error1-3" class="text-gray-700">ใช้ %f กับ
+                                    int age</label></div>
+                        </div>
+                    </div>
+                    <div class="mt-4 flex justify-end"><button id="check-debug1"
+                            class="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-md">ตรวจคำตอบ</button>
+                    </div>
+                    <div id="result-debug1" class="mt-4 hidden p-3 rounded-md"></div>
+                </div>
+            </section>
+        </div>
+    </main>
+
+    <!-- Common Footer (เหมือนเดิม) -->
+    <footer class="bg-blue-900 text-white py-10 px-4">
+        <div class="container mx-auto">
+            <div class="flex flex-col md:flex-row justify-between items-center">
+                <div class="mb-6 md:mb-0">
+                    <div class="text-2xl font-bold flex items-center"><span
+                            class="text-3xl mr-2">🌱</span><span>En-Code</span></div>
+                    <p class="text-blue-200 mt-2">พื้นที่เรียนรู้ภาษา C สำหรับนักเรียน ม.4</p>
+                </div>
+                <div class="flex space-x-8">
+                    <div>
+                        <h4 class="font-medium mb-3">เกี่ยวกับเรา</h4>
+                        <ul class="space-y-2 text-blue-200">
+                            <li><a href="#" class="hover:text-white transition">ทีมงาน</a></li>
+                            <li><a href="#" class="hover:text-white transition">ติดต่อ</a></li>
+                            <li><a href="#" class="hover:text-white transition">คำถามที่พบบ่อย</a></li>
+                        </ul>
+                    </div>
+                    <div>
+                        <h4 class="font-medium mb-3">ทรัพยากร</h4>
+                        <ul class="space-y-2 text-blue-200">
+                            <li><a href="#" class="hover:text-white transition">บทเรียน</a></li>
+                            <li><a href="#" class="hover:text-white transition">คู่มือการใช้งาน</a></li>
+                            <li><a href="#" class="hover:text-white transition">ดาวน์โหลด</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="border-t border-blue-800 mt-8 pt-8 text-center text-blue-300 text-sm">
+                <p>© 2024 En-Code Learning Platform. สงวนลิขสิทธิ์.</p>
+            </div>
+        </div>
+    </footer>
+    <script src="js\main.js"></script>
+    <script>
+        // Script for resources page (เหมือนเดิม, แต่มีการตรวจสอบ element ก่อน)
+        document.addEventListener('DOMContentLoaded', function () {
+            const tabs = document.querySelectorAll('#tabs .tab-btn');
+            const tabContents = document.querySelectorAll('.tab-content');
+            if (tabs.length > 0 && tabContents.length > 0) {
+                tabs.forEach(tab => {
+                    tab.addEventListener('click', () => {
+                        const target = tab.dataset.tab;
+                        tabs.forEach(t => {
+                            t.classList.toggle('bg-blue-500', t.dataset.tab === target);
+                            t.classList.toggle('text-white', t.dataset.tab === target);
+                            t.classList.toggle('hover:bg-blue-100', t.dataset.tab !== target);
+                            t.classList.toggle('text-gray-700', t.dataset.tab !== target);
+                        });
+                        tabContents.forEach(content => {
+                            content.classList.toggle('active', content.id === target);
+                        });
+                    });
+                });
+            }
+
+            const checkEx1Button = document.getElementById('check-ex1');
+            if (checkEx1Button) checkEx1Button.addEventListener('click', function () { checkFillExercise('ex1', 1); });
+            // Note: The original HTML for exercise 2 was missing, so I'm assuming if it's added, it would be the second .bg-white block in #code-examples
+            // const checkEx2Button = document.getElementById('check-ex2');
+            // if(checkEx2Button) checkEx2Button.addEventListener('click', function() { checkFillExercise('ex2', 2); });
+
+
+            function checkFillExercise(exerciseId, nthOfTypeIndex) {
+                const exerciseBlock = document.querySelector(`#code-examples .bg-white.rounded-lg.shadow-md:nth-of-type(${nthOfTypeIndex})`);
+                if (!exerciseBlock) return;
+                const inputs = exerciseBlock.querySelectorAll('.fill-blank');
+                let allCorrect = true;
+                inputs.forEach(input => {
+                    const userAnswer = input.value.trim();
+                    const correctAnswer = input.dataset.answer;
+                    if (userAnswer === correctAnswer) {
+                        input.style.backgroundColor = '#d1fae5'; input.style.borderColor = '#10b981';
+                    } else {
+                        input.style.backgroundColor = '#fee2e2'; input.style.borderColor = '#ef4444'; allCorrect = false;
+                    }
+                });
+                const resultDiv = exerciseBlock.querySelector(`#result-${exerciseId}`); // Search within the block
+                if (resultDiv) {
+                    resultDiv.classList.remove('hidden');
+                    resultDiv.className = `mt-4 p-3 rounded-md ${allCorrect ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800'}`;
+                    resultDiv.textContent = allCorrect ? 'ยินดีด้วย! คำตอบของคุณถูกต้องทั้งหมด' : 'ยังไม่ถูกต้องทั้งหมด โปรดลองอีกครั้ง';
+                }
+            }
+
+            const dragItems = document.querySelectorAll('.drag-item');
+            const dropZones = document.querySelectorAll('#drop-container .drop-zone');
+            let draggedItem = null;
+            if (dragItems.length > 0 && dropZones.length > 0) {
+                dragItems.forEach(item => {
+                    item.addEventListener('dragstart', function () { draggedItem = this; setTimeout(() => this.style.opacity = '0.5', 0); });
+                    item.addEventListener('dragend', function () { draggedItem = null; this.style.opacity = '1'; });
+                });
+                dropZones.forEach(zone => {
+                    zone.addEventListener('dragover', function (e) { e.preventDefault(); this.classList.add('highlight'); });
+                    zone.addEventListener('dragleave', function () { this.classList.remove('highlight'); });
+                    zone.addEventListener('drop', function (e) {
+                        e.preventDefault(); this.classList.remove('highlight');
+                        if (draggedItem && this.children.length === 0) { // Allow drop only if zone is empty
+                            const clone = draggedItem.cloneNode(true);
+                            clone.classList.add('placed', 'text-xs', 'p-1'); // Ensure consistent styling
+                            clone.classList.remove('drag-item', 'bg-blue-100');
+                            clone.classList.add('bg-green-100', 'border', 'border-green-300'); // Style for placed item
+                            clone.setAttribute('draggable', 'false');
+                            const removeBtn = document.createElement('button');
+                            removeBtn.innerHTML = '×';
+                            removeBtn.className = 'absolute top-0 right-0 bg-red-500 text-white rounded-full w-4 h-4 flex items-center justify-center text-xs leading-none';
+                            removeBtn.style.transform = 'translate(25%, -25%)';
+                            removeBtn.addEventListener('click', function () {
+                                const parentZone = this.parentNode.parentNode;
+                                this.parentNode.remove();
+                                // Make original draggable item visible again if needed
+                                // document.querySelector(`.drag-item[data-order='${clone.dataset.order}']`).style.display = '';
+                            });
+                            clone.style.position = 'relative'; clone.appendChild(removeBtn);
+                            this.appendChild(clone);
+                            // Hide original draggable item (optional)
+                            // draggedItem.style.display = 'none';
+                        }
+                    });
+                });
+            }
+            const checkDragButton = document.getElementById('check-drag');
+            if (checkDragButton) {
+                checkDragButton.addEventListener('click', function () {
+                    const currentDropZones = document.querySelectorAll('#drop-container .drop-zone');
+                    let allCorrect = true;
+                    currentDropZones.forEach(zone => {
+                        const position = parseInt(zone.dataset.position);
+                        const placedItem = zone.querySelector('.placed');
+                        if (!placedItem || parseInt(placedItem.dataset.order) !== position) {
+                            allCorrect = false; zone.style.borderColor = '#ef4444'; zone.classList.add('bg-red-50');
+                        } else {
+                            zone.style.borderColor = '#10b981'; zone.classList.add('bg-green-50');
+                        }
+                    });
+                    const resultDiv = document.getElementById('result-drag');
+                    if (resultDiv) {
+                        resultDiv.classList.remove('hidden');
+                        resultDiv.className = `mt-4 p-3 rounded-md ${allCorrect ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800'}`;
+                        resultDiv.textContent = allCorrect ? 'ยินดีด้วย! คุณเรียงลำดับโค้ดได้ถูกต้อง' : 'ยังไม่ถูกต้องทั้งหมด โปรดลองอีกครั้ง';
+                    }
+                });
+            }
+
+            const checkDebug1Button = document.getElementById('check-debug1');
+            // Assuming there's only one debug exercise block for now, or you'll add specific IDs/selectors
+            if (checkDebug1Button) checkDebug1Button.addEventListener('click', function () { checkDebugExercise('debug1', [true, true, true, false], 1); });
+            // const checkDebug2Button = document.getElementById('check-debug2');
+            // if(checkDebug2Button) checkDebug2Button.addEventListener('click', function() { checkDebugExercise('debug2', [true, true, true, true], 2); });
+
+
+            function checkDebugExercise(exerciseId, correctAnswers, nthOfTypeIndex) {
+                const exerciseBlock = document.querySelector(`#debug .bg-white.rounded-lg.shadow-md:nth-of-type(${nthOfTypeIndex})`);
+                if (!exerciseBlock) return;
+                const checkboxes = exerciseBlock.querySelectorAll('.error-checkbox');
+                let allCorrect = true;
+                let userMadeAChoice = false;
+                checkboxes.forEach((checkbox, index) => {
+                    if (checkbox.checked) userMadeAChoice = true;
+                    if ((checkbox.checked && !correctAnswers[index]) || (!checkbox.checked && correctAnswers[index])) {
+                        allCorrect = false;
+                    }
+                });
+                if (!userMadeAChoice && correctAnswers.some(ans => ans === true)) { // If user didn't check anything but there are correct answers
+                    allCorrect = false;
+                }
+
+                const resultDiv = exerciseBlock.querySelector(`#result-${exerciseId}`);
+                if (resultDiv) {
+                    resultDiv.classList.remove('hidden');
+                    resultDiv.className = `mt-4 p-3 rounded-md ${allCorrect ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800'}`;
+                    resultDiv.textContent = allCorrect ? 'ยินดีด้วย! คุณระบุข้อผิดพลาดได้ถูกต้องทั้งหมด' : 'ยังไม่ถูกต้องทั้งหมด โปรดลองอีกครั้ง';
+                }
+            }
+        });
+    </script>
+</body>
+
+</html>
