@@ -8,7 +8,7 @@ app = Flask(__name__)
 CORS(app)
 
 # ตั้งค่า Google Gemini API Key จาก environment variable
-GOOGLE_API_KEY = "AIzaSyBGJkjXJpXIolN72DGH7Fwc9jtLrXpaK0g"
+GOOGLE_API_KEY = os.environ.get("GOOGLE_API_KEY")
 if not GOOGLE_API_KEY:
     print("\nCRITICAL: GOOGLE_API_KEY is not set.")
 
