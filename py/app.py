@@ -52,3 +52,7 @@ def ask_ai_route():
 if __name__ == '__main__':
     print(f"Starting Flask server on http://127.0.0.1:5000")
     app.run(host='0.0.0.0', port=5000, debug=True)
+
+@app.route('/test-connection', methods=['GET'])
+def test_connection_route():
+    return "Connection OK from app.py", 200
