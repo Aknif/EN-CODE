@@ -1,0 +1,493 @@
+<!DOCTYPE html>
+<html lang="th">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>โค้ชทดสอบ - En-Code</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Prompt:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Prompt', sans-serif;
+            background-color: #f0f7ff;
+            /* Consistent background */
+        }
+
+        .gradient-bg-header {
+            background: linear-gradient(135deg, #1e40af 0%, #3b82f6 100%);
+        }
+
+        .challenge-card {
+            transition: all 0.3s ease;
+            border: 2px solid transparent;
+        }
+
+        .challenge-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px -5px rgba(59, 130, 246, 0.3);
+            border-color: #3b82f6;
+        }
+
+        .code-editor {
+            font-family: monospace;
+            resize: none;
+            tab-size: 4;
+            background-color: #1e293b;
+            /* Darker for code editor */
+            color: #e2e8f0;
+            /* Light text for code */
+        }
+
+        .progress-icon {
+            transition: all 0.5s ease;
+        }
+
+        .progress-icon.completed {
+            transform: scale(1.2);
+            filter: drop-shadow(0 0 5px rgba(59, 130, 246, 0.5));
+        }
+
+        .certificate {
+            background: linear-gradient(135deg, #f0f9ff 0%, #e6f7ff 100%);
+            border: 2px dashed #3b82f6;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .certificate::before {
+            content: "🏆";
+            position: absolute;
+            font-size: 150px;
+            opacity: 0.05;
+            right: -20px;
+            bottom: -20px;
+            transform: rotate(15deg);
+        }
+
+        @keyframes celebrate {
+            0% {
+                transform: scale(0.8);
+                opacity: 0;
+            }
+
+            50% {
+                transform: scale(1.2);
+                opacity: 1;
+            }
+
+            100% {
+                transform: scale(1);
+                opacity: 1;
+            }
+        }
+
+        .celebrate {
+            animation: celebrate 0.8s ease-out;
+        }
+
+        .hint {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease;
+        }
+
+        .hint.show {
+            max-height: 200px;
+        }
+
+        #nav-coach {
+            /* Active nav link style */
+            color: #bfdbfe;
+            font-weight: 600;
+            border-bottom: 2px solid #bfdbfe;
+        }
+    </style>
+</head>
+
+<body class="min-h-screen flex flex-col">
+    <header class="gradient-bg-header text-white shadow-lg">
+        <div class="container mx-auto px-4 py-6">
+            <div class="flex flex-col md:flex-row justify-between items-center">
+                <div class="flex items-center mb-4 md:mb-0">
+                    <a href="index.html" class="text-3xl font-bold flex items-center">
+                        <span class="text-4xl mr-2">🌱</span>
+                        <span>En-Code</span>
+                    </a>
+                </div>
+                <nav class="flex flex-wrap items-center space-x-4 md:space-x-6" id="main-navbar">
+                    <a href="index.html" id="nav-home"
+                        class="hover:text-blue-200 transition nav-item-static">หน้าหลัก</a>
+                    <a href="mission.html" id="nav-missions"
+                        class="hover:text-blue-200 transition nav-item-static">สถานการณ์ปัญหา</a>
+                    <a href="resources.html" id="nav-resources"
+                        class="hover:text-blue-200 transition nav-item-static">ศูนย์การเรียนรู้</a>
+                    <a href="pps.html" id="nav-pps"
+                        class="hover:text-blue-200 transition nav-item-static">ศูนย์ส่งเสริมการแก้ปัญหาการเขียนโปรแกรม</a>    
+                    <a href="share.html" id="nav-hub"
+                        class="hover:text-blue-200 transition nav-item-static">ศูนย์แลกเปลี่ยนเรียนรู้</a>
+                    <a href="ai_assistant.html" id="nav-ai" class="hover:text-blue-200 transition nav-item-static">ฐานการช่วยเหลือ</a>
+                    <a href="coach.html" id="nav-coach"
+                        class="hover:text-blue-200 transition nav-item-static">การโค้ช</a>
+                </nav>
+            </div>
+        </div>
+    </header>
+
+    <main class="flex-grow p-4 md:p-8">
+        <div class="max-w-5xl mx-auto">
+            <!-- Header -->
+            <header class="text-center mb-8">
+                <h1 class="text-3xl md:text-4xl font-bold text-blue-600 mb-2">โค้ชทดสอบ (Challenge Coach)</h1>
+                <p class="text-gray-600">เรียนรู้ภาษา C ผ่านแบบฝึกหัดที่สนุกและท้าทาย</p>
+            </header>
+
+            <!-- Progress Bar -->
+            <div class="mb-8">
+                <div class="flex items-center justify-between mb-2">
+                    <h2 class="text-lg font-medium text-blue-700">ความก้าวหน้า</h2>
+                    <span id="progress-text" class="text-sm font-medium text-blue-600">0/5 ภารกิจ</span>
+                </div>
+                <div class="relative">
+                    <div class="h-3 bg-blue-100 rounded-full overflow-hidden">
+                        <div id="progress-bar" class="h-full bg-blue-500 rounded-full transition-all duration-500"
+                            style="width: 0%"></div>
+                    </div>
+                    <div class="flex justify-between mt-2">
+                        <div class="text-center">
+                            <span id="level-1" class="progress-icon text-2xl">🌱</span>
+                            <p class="text-xs text-gray-500">เริ่มต้น</p>
+                        </div>
+                        <div class="text-center">
+                            <span id="level-2" class="progress-icon text-2xl opacity-50">🌿</span>
+                            <p class="text-xs text-gray-500">กำลังเติบโต</p>
+                        </div>
+                        <div class="text-center">
+                            <span id="level-3" class="progress-icon text-2xl opacity-50">🌳</span>
+                            <p class="text-xs text-gray-500">เชี่ยวชาญ</p>
+                        </div>
+                        <div class="text-center">
+                            <span id="level-4" class="progress-icon text-2xl opacity-50">🌲</span>
+                            <p class="text-xs text-gray-500">ชำนาญ</p>
+                        </div>
+                        <div class="text-center">
+                            <span id="level-5" class="progress-icon text-2xl opacity-50">🏆</span>
+                            <p class="text-xs text-gray-500">สำเร็จ</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Main Content -->
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <!-- Challenge List -->
+                <div class="md:col-span-1">
+                    <div class="bg-white rounded-lg shadow-md p-4 mb-6">
+                        <h2 class="text-xl font-semibold text-blue-700 mb-4">แบบฝึกหัด</h2>
+                        <ul id="challenge-list" class="space-y-2">
+                            <li class="challenge-card p-3 rounded-lg bg-blue-50 cursor-pointer" data-id="1">
+                                <div class="flex justify-between items-center">
+                                    <span class="font-medium">1. Hello World</span>
+                                    <span id="status-1"
+                                        class="text-sm px-2 py-1 rounded-full bg-gray-200 text-gray-700">รอทำ</span>
+                                </div>
+                            </li>
+                            <li class="challenge-card p-3 rounded-lg bg-gray-50 cursor-pointer" data-id="2">
+                                <div class="flex justify-between items-center">
+                                    <span class="font-medium">2. ตัวแปรและการคำนวณ</span>
+                                    <span id="status-2"
+                                        class="text-sm px-2 py-1 rounded-full bg-gray-200 text-gray-700">รอทำ</span>
+                                </div>
+                            </li>
+                            <li class="challenge-card p-3 rounded-lg bg-gray-50 cursor-pointer" data-id="3">
+                                <div class="flex justify-between items-center">
+                                    <span class="font-medium">3. เงื่อนไข if-else</span>
+                                    <span id="status-3"
+                                        class="text-sm px-2 py-1 rounded-full bg-gray-200 text-gray-700">รอทำ</span>
+                                </div>
+                            </li>
+                            <li class="challenge-card p-3 rounded-lg bg-gray-50 cursor-pointer" data-id="4">
+                                <div class="flex justify-between items-center">
+                                    <span class="font-medium">4. วนลูป for</span>
+                                    <span id="status-4"
+                                        class="text-sm px-2 py-1 rounded-full bg-gray-200 text-gray-700">รอทำ</span>
+                                </div>
+                            </li>
+                            <li class="challenge-card p-3 rounded-lg bg-gray-50 cursor-pointer" data-id="5">
+                                <div class="flex justify-between items-center">
+                                    <span class="font-medium">5. อาร์เรย์</span>
+                                    <span id="status-5"
+                                        class="text-sm px-2 py-1 rounded-full bg-gray-200 text-gray-700">รอทำ</span>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Challenge Content -->
+                <div class="md:col-span-2">
+                    <div id="challenge-content" class="bg-white rounded-lg shadow-md p-6">
+                        <div id="challenge-details">
+                            <h2 id="challenge-title" class="text-2xl font-bold text-blue-700 mb-3">1. Hello World</h2>
+                            <div class="mb-4 p-4 bg-blue-50 rounded-lg">
+                                <h3 class="font-medium text-blue-800 mb-2">โจทย์:</h3>
+                                <p id="challenge-description" class="text-gray-700">
+                                    เขียนโปรแกรมภาษา C ที่แสดงข้อความ "Hello, World!" บนหน้าจอ
+                                </p>
+                            </div>
+
+                            <div class="mb-4">
+                                <label for="code-editor"
+                                    class="block text-sm font-medium text-gray-700 mb-1">โค้ดของคุณ:</label>
+                                <textarea id="code-editor"
+                                    class="code-editor w-full h-40 p-3 border border-gray-700 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                                    placeholder="#include <stdio.h>
+
+int main() {
+    // เขียนโค้ดตรงนี้
+    
+    return 0;
+}"></textarea>
+                            </div>
+
+                            <div class="flex justify-between items-center">
+                                <button id="hint-button"
+                                    class="px-4 py-2 text-sm bg-blue-100 text-blue-700 rounded-lg hover:bg-blue-200 transition">
+                                    💡 ดูคำใบ้
+                                </button>
+                                <button id="submit-button"
+                                    class="px-6 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition">
+                                    ส่งคำตอบ
+                                </button>
+                            </div>
+
+                            <div id="hint-box" class="hint mt-4 p-4 bg-yellow-50 rounded-lg border border-yellow-200">
+                                <h4 class="font-medium text-yellow-800 mb-1">คำใบ้:</h4>
+                                <p id="hint-text" class="text-gray-700 text-sm">
+                                    ใช้ฟังก์ชัน printf() เพื่อแสดงข้อความบนหน้าจอ
+                                </p>
+                            </div>
+
+                            <div id="result-box" class="hidden mt-4 p-4 rounded-lg">
+                                <h4 class="font-medium mb-1">ผลลัพธ์:</h4>
+                                <p id="result-text" class="text-sm"></p>
+                            </div>
+
+                            <!-- เพิ่มส่วนนี้เข้ามา -->
+                            <div id="coaching-contact" class="mt-6 pt-4 border-t border-gray-200">
+                                <h4 class="font-medium text-blue-800 mb-2">ต้องการคำแนะนำเพิ่มเติมหรือการโค้ช?</h4>
+                                <p class="text-gray-700 text-sm mb-3">
+                                    เข้าร่วมกลุ่มของเราเพื่อสอบถามข้อสงสัย แลกเปลี่ยนความรู้ หรือรับการโค้ชจากผู้เชี่ยวชาญและเพื่อนๆ:
+                                </p>
+                                <div class="flex flex-col sm:flex-row sm:items-center sm:space-x-4 space-y-3 sm:space-y-0">
+                                    <a href="YOUR_LINE_GROUP_LINK_HERE" target="_blank" class="inline-flex items-center justify-center px-5 py-2.5 text-sm font-medium text-center text-white bg-green-500 rounded-lg hover:bg-green-600 focus:ring-4 focus:ring-green-300 dark:focus:ring-green-900 w-full sm:w-auto">
+                                        <svg class="w-5 h-5 mr-2" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="M10 2a8 8 0 100 16 8 8 0 000-16zM5.75 8.25a.75.75 0 01.75-.75H7.9c.38 0 .72.22.88.56l.42 1.1a.75.75 0 01-.52 1L7.5 11.5a.75.75 0 01-1-.52L5.2 8.76A.75.75 0 015.75 8.25zm4.5 5a.75.75 0 01-1.5 0V9.5a.75.75 0 011.5 0v3.75zm2.92-4.14a.75.75 0 01.53.53l.75 2.25a.75.75 0 01-1.4.48l-.53-.53a.75.75 0 01-.53-1.06l1.65-3.3a.75.75 0 011.03-.37z"></path></svg> <!-- ตัวอย่างไอคอน LINE (SVG) -->
+                                        เข้าร่วมกลุ่ม LINE
+                                    </a>
+                                    <a href="YOUR_FACEBOOK_GROUP_LINK_HERE" target="_blank" class="inline-flex items-center justify-center px-5 py-2.5 text-sm font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 dark:focus:ring-blue-900 w-full sm:w-auto">
+                                        <svg class="w-5 h-5 mr-2" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path fill-rule="evenodd" d="M20 10c0-5.523-4.477-10-10-10S0 4.477 0 10c0 4.991 3.657 9.128 8.438 9.878v-6.987h-2.54V10h2.54V7.797c0-2.506 1.492-3.89 3.777-3.89 1.094 0 2.238.195 2.238.195v2.46h-1.26c-1.243 0-1.63.771-1.63 1.562V10h2.773l-.443 2.89h-2.33v6.988C16.343 19.128 20 14.991 20 10z" clip-rule="evenodd"></path></svg> <!-- ตัวอย่างไอคอน Facebook (SVG) -->
+                                        เข้าร่วมกลุ่ม Facebook
+                                    </a>
+                                </div>
+                                <p class="text-xs text-gray-500 mt-4">
+                                    *หมายเหตุ: การโค้ชในกลุ่มอาจเป็นการตอบคำถามทั่วไปหรือการชี้แนะแนวทางเบื้องต้น
+                                </p>
+                            </div>
+                            <!-- สิ้นสุดส่วนที่เพิ่มเข้ามา -->
+                        </div>
+
+                        <div id="certificate" class="hidden certificate p-8 text-center rounded-lg">
+                            <div class="mb-6">
+                                <span class="text-5xl">🎓</span>
+                            </div>
+                            <h2 class="text-2xl font-bold text-blue-700 mb-2">ประกาศนียบัตร</h2>
+                            <h3 class="text-xl font-medium text-blue-600 mb-4">Young C Programmer</h3>
+                            <p class="text-gray-600 mb-6">ขอแสดงความยินดีกับ</p>
+                            <p class="text-xl font-bold text-blue-800 mb-6">นักเรียนผู้เก่ง</p>
+                            <p class="text-gray-600 mb-2">สำเร็จการเรียนรู้พื้นฐานภาษา C</p>
+                            <div class="flex justify-center space-x-2 text-2xl mt-4">
+                                <span>🌱</span>
+                                <span>🌿</span>
+                                <span>🌳</span>
+                                <span>🌲</span>
+                                <span>🏆</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer class="bg-blue-900 text-white py-10 px-4">
+        <div class="container mx-auto">
+            <div class="flex flex-col md:flex-row justify-between items-center">
+                <div class="mb-6 md:mb-0">
+                    <div class="text-2xl font-bold flex items-center"><span
+                            class="text-3xl mr-2">🌱</span><span>En-Code</span></div>
+                    <p class="text-blue-200 mt-2">พื้นที่เรียนรู้ภาษา C สำหรับนักเรียน ม.4</p>
+                </div>
+                <div class="flex space-x-8">
+                    <div>
+                        <h4 class="font-medium mb-3">เกี่ยวกับเรา</h4>
+                        <ul class="space-y-2 text-blue-200">
+                            <li><a href="#" class="hover:text-white transition">ทีมงาน</a></li>
+                            <li><a href="#" class="hover:text-white transition">ติดต่อ</a></li>
+                            <li><a href="#" class="hover:text-white transition">คำถามที่พบบ่อย</a></li>
+                        </ul>
+                    </div>
+                    <div>
+                        <h4 class="font-medium mb-3">ทรัพยากร</h4>
+                        <ul class="space-y-2 text-blue-200">
+                            <li><a href="#" class="hover:text-white transition">บทเรียน</a></li>
+                            <li><a href="#" class="hover:text-white transition">คู่มือการใช้งาน</a></li>
+                            <li><a href="#" class="hover:text-white transition">ดาวน์โหลด</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="border-t border-blue-800 mt-8 pt-8 text-center text-blue-300 text-sm">
+                <p>© 2024 En-Code Learning Platform. สงวนลิขสิทธิ์.</p>
+            </div>
+        </div>
+    </footer>
+    <script src="js/main.js"></script>
+    <script>
+        // Challenge data
+        const challenges = [
+            { id: 1, title: "1. Hello World", description: "เขียนโปรแกรมภาษา C ที่แสดงข้อความ \"Hello, World!\" บนหน้าจอ", hint: "ใช้ฟังก์ชัน printf() เพื่อแสดงข้อความบนหน้าจอ", solution: /printf\s*\(\s*["']Hello,\s*World!["']\s*\)/i, template: '#include <stdio.h>\n\nint main() {\n    // เขียนโค้ดตรงนี้\n    printf("Hello, World!");\n    return 0;\n}' },
+            { id: 2, title: "2. ตัวแปรและการคำนวณ", description: "เขียนโปรแกรมที่รับค่าตัวเลข 2 ตัว แล้วแสดงผลรวมของตัวเลขทั้งสอง", hint: "ใช้ scanf() เพื่อรับค่าตัวเลข และใช้ printf() เพื่อแสดงผลรวม", solution: /scanf\s*\(\s*["']%d[^"']*["']\s*,\s*&\w+\s*\).*scanf\s*\(\s*["']%d[^"']*["']\s*,\s*&\w+\s*\).*printf\s*\(\s*["'][^"']*["']\s*,\s*\w+\s*\+\s*\w+\s*\)/is, template: '#include <stdio.h>\n\nint main() {\n    int a, b;\n    printf("Enter two numbers: ");\n    scanf("%d %d", &a, &b);\n    printf("Sum: %d\\n", a + b);\n    return 0;\n}' },
+            { id: 3, title: "3. เงื่อนไข if-else", description: "เขียนโปรแกรมที่รับค่าตัวเลข 1 ตัว แล้วตรวจสอบว่าเป็นเลขคู่หรือเลขคี่", hint: "ใช้เครื่องหมาย % (modulo) เพื่อหาเศษจากการหาร และใช้ if-else เพื่อตรวจสอบเงื่อนไข", solution: /if\s*\(\s*\w+\s*%\s*2\s*==\s*0\s*\)|if\s*\(\s*\w+\s*%\s*2\s*\)\s*{[^}]*}/is, template: '#include <stdio.h>\n\nint main() {\n    int number;\n    printf("Enter a number: ");\n    scanf("%d", &number);\n    if (number % 2 == 0) {\n        printf("%d is even.\\n", number);\n    } else {\n        printf("%d is odd.\\n", number);\n    }\n    return 0;\n}' },
+            { id: 4, title: "4. วนลูป for", description: "เขียนโปรแกรมที่แสดงตัวเลข 1 ถึง 10 โดยใช้ลูป for", hint: "ใช้ลูป for โดยกำหนดค่าเริ่มต้น เงื่อนไข และการเพิ่มค่าตัวแปร", solution: /for\s*\(\s*\w+\s*=\s*\d+\s*;\s*\w+\s*<=?\s*10\s*;[^)]+\)/i, template: '#include <stdio.h>\n\nint main() {\n    for (int i = 1; i <= 10; i++) {\n        printf("%d ", i);\n    }\n    printf("\\n");\n    return 0;\n}' },
+            { id: 5, title: "5. อาร์เรย์", description: "เขียนโปรแกรมที่สร้างอาร์เรย์ขนาด 5 ช่อง เก็บตัวเลข และหาผลรวมของตัวเลขทั้งหมดในอาร์เรย์", hint: "ประกาศอาร์เรย์ ใช้ลูปเพื่อรับค่าหรือกำหนดค่า และใช้อีกลูปเพื่อหาผลรวม", solution: /int\s+\w+\s*\[\s*[5]\s*\]|for\s*\([^)]+\)\s*{[^}]*sum\s*\+=/is, template: '#include <stdio.h>\n\nint main() {\n    int arr[5] = {1, 2, 3, 4, 5};\n    int sum = 0;\n    for (int i = 0; i < 5; i++) {\n        sum += arr[i];\n    }\n    printf("Sum of array elements: %d\\n", sum);\n    return 0;\n}' }
+        ];
+        let currentChallengeId = 1;
+        let completedChallenges = [];
+
+        const challengeListEl = document.getElementById('challenge-list');
+        const challengeTitleEl = document.getElementById('challenge-title');
+        const challengeDescriptionEl = document.getElementById('challenge-description');
+        const codeEditorEl = document.getElementById('code-editor');
+        const hintButtonEl = document.getElementById('hint-button');
+        const hintBoxEl = document.getElementById('hint-box');
+        const hintTextEl = document.getElementById('hint-text');
+        const submitButtonEl = document.getElementById('submit-button');
+        const resultBoxEl = document.getElementById('result-box');
+        const resultTextEl = document.getElementById('result-text');
+        const progressBarEl = document.getElementById('progress-bar');
+        const progressTextEl = document.getElementById('progress-text');
+        const certificateEl = document.getElementById('certificate');
+        const challengeDetailsEl = document.getElementById('challenge-details');
+
+        function loadChallenge(id) {
+            const challenge = challenges.find(c => c.id === id);
+            if (!challenge) return;
+
+            currentChallengeId = id;
+            challengeTitleEl.textContent = challenge.title;
+            challengeDescriptionEl.textContent = challenge.description; // ส่วนนี้จะแสดง description ที่คุณอาจจะใส่ลิงก์ไว้
+            hintTextEl.textContent = challenge.hint;
+            codeEditorEl.value = challenge.template;
+
+            document.querySelectorAll('.challenge-card').forEach(card => {
+                card.classList.toggle('bg-blue-50', parseInt(card.dataset.id) === id);
+                card.classList.toggle('bg-gray-50', parseInt(card.dataset.id) !== id);
+            });
+
+            hintBoxEl.classList.remove('show');
+            resultBoxEl.classList.add('hidden');
+        }
+
+        function checkSolution() {
+            const challenge = challenges.find(c => c.id === currentChallengeId);
+            const userCode = codeEditorEl.value;
+
+            resultBoxEl.classList.remove('hidden');
+            hintBoxEl.classList.remove('show'); // ซ่อนคำใบ้เมื่อส่งคำตอบ
+
+            try { // เพิ่ม try-catch เพื่อจัดการ error ที่อาจเกิดขึ้นจากการ test regex
+                if (challenge.solution.test(userCode)) {
+                    resultBoxEl.className = 'mt-4 p-4 rounded-lg bg-green-50 border border-green-200';
+                    resultTextEl.className = 'text-sm text-green-700';
+                    resultTextEl.innerHTML = '✅ <strong>ยอดเยี่ยม!</strong> คุณทำได้ถูกต้อง';
+
+                    if (!completedChallenges.includes(currentChallengeId)) {
+                        completedChallenges.push(currentChallengeId);
+                        updateProgress();
+                        const statusBadge = document.getElementById(`status-${currentChallengeId}`);
+                        if(statusBadge) { // ตรวจสอบว่า element มีอยู่จริง
+                            statusBadge.textContent = 'ผ่านแล้ว';
+                            statusBadge.className = 'text-sm px-2 py-1 rounded-full bg-green-200 text-green-800';
+                        }
+
+
+                        if (completedChallenges.length === challenges.length) {
+                            showCertificate();
+                        }
+                    }
+                } else {
+                    resultBoxEl.className = 'mt-4 p-4 rounded-lg bg-red-50 border border-red-200';
+                    resultTextEl.className = 'text-sm text-red-700';
+                    resultTextEl.innerHTML = '❌ <strong>ยังไม่ถูกต้อง</strong> ลองอีกครั้ง หรือดูคำใบ้';
+                    // ไม่ต้อง add 'show' ให้ hintBoxEl ที่นี่แล้ว เพราะจะแสดงเมื่อคลิกปุ่ม
+                }
+            } catch (error) {
+                 resultBoxEl.className = 'mt-4 p-4 rounded-lg bg-red-50 border border-red-200';
+                 resultTextEl.className = 'text-sm text-red-700';
+                 resultTextEl.textContent = `❌ เกิดข้อผิดพลาดในการตรวจสอบโค้ด: ${error.message}`;
+            }
+        }
+
+        function updateProgress() {
+            const percentage = (completedChallenges.length / challenges.length) * 100;
+            if (progressBarEl) progressBarEl.style.width = `${percentage}%`;
+            if (progressTextEl) progressTextEl.textContent = `${completedChallenges.length}/${challenges.length} ภารกิจ`;
+
+            for (let i = 1; i <= 5; i++) {
+                const levelIcon = document.getElementById(`level-${i}`);
+                if(levelIcon){
+                    if (completedChallenges.length >= i) {
+                        levelIcon.classList.add('completed');
+                        levelIcon.classList.remove('opacity-50');
+                    } else {
+                        levelIcon.classList.remove('completed');
+                        levelIcon.classList.add('opacity-50');
+                    }
+                }
+            }
+        }
+
+        function showCertificate() {
+            setTimeout(() => {
+                if (challengeDetailsEl) challengeDetailsEl.classList.add('hidden');
+                if (certificateEl) certificateEl.classList.remove('hidden');
+                if (certificateEl) certificateEl.classList.add('celebrate');
+            }, 1000);
+        }
+
+        if (challengeListEl) {
+            challengeListEl.addEventListener('click', (e) => {
+                const card = e.target.closest('.challenge-card');
+                if (card) {
+                    const challengeId = parseInt(card.dataset.id);
+                    if(challengeId) loadChallenge(challengeId);
+                }
+            });
+        }
+        if (hintButtonEl) {
+            hintButtonEl.addEventListener('click', () => {
+                if(hintBoxEl) hintBoxEl.classList.toggle('show');
+            });
+        }
+        if (submitButtonEl) {
+            submitButtonEl.addEventListener('click', checkSolution);
+        }
+
+        // Load the first challenge by default, if challenges array is not empty
+        if (challenges.length > 0) {
+            loadChallenge(challenges[0].id);
+        }
+    </script>
+</body>
+
+</html>

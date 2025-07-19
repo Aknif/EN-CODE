@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+<html lang="th">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>En-Code: ฝึกแก้ปัญหาด้วย IDEAL Model</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Prompt:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        body {
+            font-family: 'Prompt', sans-serif;
+            background-color: #f0f7ff;
+        }
+
+        .gradient-bg-header {
+            background: linear-gradient(135deg, #1e40af 0%, #3b82f6 100%);
+        }
+
+        #nav-hub {
+            color: #bfdbfe;
+            font-weight: 600;
+            border-bottom: 2px solid #bfdbfe;
+        }
+
+        .ideal-card {
+            background-color: #ffffff;
+            border-radius: 0.75rem;
+            box-shadow: 0 4px 20px -5px rgba(0, 0, 0, 0.1);
+            padding: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .ideal-letter {
+            font-size: 3rem;
+            font-weight: 800;
+            line-height: 1;
+            color: #dbeafe;
+        }
+
+        .interactive-section {
+            border-top: 2px dashed #e0e7ff;
+            margin-top: 1.5rem;
+            padding-top: 1.5rem;
+        }
+        
+        .code-block {
+            background-color: #1e293b; /* Slate-800 */
+            color: #e2e8f0; /* Slate-200 */
+            padding: 1rem;
+            border-radius: 0.5rem;
+            font-family: 'Courier New', monospace;
+            font-size: 0.9em;
+            white-space: pre-wrap;
+        }
+
+        .interactive-textarea {
+            width: 100%;
+            min-height: 100px;
+            padding: 0.75rem;
+            border: 1px solid #cbd5e1;
+            border-radius: 0.5rem;
+            font-family: 'Prompt', sans-serif;
+            resize: vertical;
+        }
+
+        .code-editor {
+             font-family: 'Courier New', monospace;
+             background-color: #f8fafc;
+             border: 1px solid #e2e8f0;
+             color: #1e293b;
+        }
+
+        .run-button {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            background-color: #2563eb;
+            color: white;
+            font-weight: 500;
+            padding: 0.6rem 1.2rem;
+            border-radius: 0.5rem;
+            cursor: pointer;
+            transition: background-color 0.2s;
+        }
+
+        .run-button:hover {
+            background-color: #1d4ed8;
+        }
+
+        .output-box {
+            margin-top: 1rem;
+            padding: 1rem;
+            border-radius: 0.5rem;
+            font-family: 'Courier New', monospace;
+        }
+
+        .output-success {
+            background-color: #dcfce7; /* Green-100 */
+            color: #166534; /* Green-800 */
+            border-left: 5px solid #22c55e;
+        }
+
+        .output-error {
+            background-color: #fee2e2; /* Red-100 */
+            color: #991b1b; /* Red-800 */
+            border-left: 5px solid #ef4444;
+        }
+    </style>
+</head>
+
+<body class="min-h-screen flex flex-col">
+    <header class="gradient-bg-header text-white shadow-lg">
+        <div class="container mx-auto px-4 py-6">
+            <div class="flex flex-col md:flex-row justify-between items-center">
+                <div class="flex items-center mb-4 md:mb-0">
+                    <a href="index.html" class="text-3xl font-bold flex items-center">
+                        <span class="text-4xl mr-2">🌱</span>
+                        <span>En-Code</span>
+                    </a>
+                </div>
+                <nav class="flex flex-wrap items-center space-x-4 md:space-x-6" id="main-navbar">
+                    <a href="index.html" class="hover:text-blue-200 transition nav-item-static">หน้าหลัก</a>
+                    <a href="mission.html" class="hover:text-blue-200 transition nav-item-static">สถานการณ์ปัญหา</a>
+                    <a href="resources.html" class="hover:text-blue-200 transition nav-item-static">ศูนย์การเรียนรู้</a>
+                    <a href="pps.html" id="nav-hub" class="hover:text-blue-200 transition nav-item-static">ศูนย์ส่งเสริมการแก้ปัญหาการเขียนโปรแกรม</a>
+                    <a href="share.html" class="hover:text-blue-200 transition nav-item-static">ศูนย์แลกเปลี่ยนเรียนรู้</a>
+                    <a href="ai_assistant.html" class="hover:text-blue-200 transition nav-item-static">ฐานการช่วยเหลือ</a>
+                    <a href="coach.html" class="hover:text-blue-200 transition nav-item-static">การโค้ช</a>
+                </nav>
+            </div>
+        </div>
+    </header>
+
+    <main class="flex-grow bg-blue-50">
+        <div class="container mx-auto px-4 py-12">
+
+            <!-- Problem Statement -->
+            <div class="bg-white p-6 rounded-lg shadow-md mb-8">
+                <h2 class="text-2xl font-bold text-blue-900 mb-2">สถานการณ์ปัญหา: โปรแกรมหาค่าเฉลี่ยเจ้าปัญหา</h2>
+                <p class="text-gray-700">คุณได้รับโค้ดภาษา C สำหรับหาค่าเฉลี่ยของเลขจำนวนเต็ม 3 ตัว แต่เมื่อลองใส่เลข <code class="code-font bg-gray-200 px-1 rounded">10</code>, <code class="code-font bg-gray-200 px-1 rounded">10</code>, และ <code class="code-font bg-gray-200 px-1 rounded">11</code> โปรแกรมกลับแสดงผลลัพธ์เป็น <code class="code-font bg-gray-200 px-1 rounded">10.00</code> ทั้งที่ควรจะเป็น <code class="code-font bg-gray-200 px-1 rounded">10.33</code></p>
+                <p class="text-gray-700 mt-2"><strong>ภารกิจ:</strong> ใช้กระบวนการ IDEAL เพื่อหาและแก้ไขข้อผิดพลาดในโปรแกรมนี้</p>
+            </div>
+
+            <!-- IDEAL Cards -->
+            <!-- Step 1: Identify -->
+            <div class="ideal-card" id="step1">
+                <div class="flex justify-between items-center">
+                    <h3 class="text-2xl font-bold text-blue-800">1. Identify: ระบุปัญหา</h3>
+                    <div class="ideal-letter">I</div>
+                </div>
+                <div class="interactive-section">
+                    <p class="font-medium text-gray-800 mb-2">โค้ดที่มีปัญหา:</p>
+                    <div class="code-block">#include <stdio.h>
+
+int main() {
+    int a, b, c;
+    float avg;
+    printf("Enter three numbers: ");
+    scanf("%d %d %d", &a, &b, &c);
+    avg = (a + b + c) / 3;
+    printf("Average: %.2f\n", avg);
+    return 0;
+}</div>
+                    <p class="font-medium text-gray-800 mt-4 mb-2">จากโค้ดและสถานการณ์ข้างต้น คุณคิดว่าปัญหาคืออะไร?</p>
+                    <textarea class="interactive-textarea" placeholder="ลองอธิบายปัญหาด้วยคำพูดของคุณเอง... เช่น 'โปรแกรมคำนวณเลขทศนิยมผิดพลาด'"></textarea>
+                </div>
+            </div>
+
+            <!-- Step 2: Define -->
+            <div class="ideal-card" id="step2">
+                 <div class="flex justify-between items-center">
+                    <h3 class="text-2xl font-bold text-blue-800">2. Define: กำหนดขอบเขต</h3>
+                    <div class="ideal-letter">D</div>
+                </div>
+                 <div class="interactive-section">
+                    <p class="font-medium text-gray-800 mb-3">ลองกำหนดขอบเขตของปัญหาให้ชัดเจน</p>
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                        <div>
+                            <label for="input-def" class="font-semibold text-gray-700">Input (ข้อมูลนำเข้า)</label>
+                            <input type="text" id="input-def" class="interactive-textarea mt-1 h-12" value="เลขจำนวนเต็ม 3 ตัว">
+                        </div>
+                        <div>
+                            <label for="output-def" class="font-semibold text-gray-700">Output (ผลลัพธ์ที่คาดหวัง)</label>
+                            <input type="text" id="output-def" class="interactive-textarea mt-1 h-12" value="ค่าเฉลี่ยที่ถูกต้อง (เป็นทศนิยม)">
+                        </div>
+                         <div>
+                            <label for="constraint-def" class="font-semibold text-gray-700">Constraints (เงื่อนไข)</label>
+                            <input type="text" id="constraint-def" class="interactive-textarea mt-1 h-12" value="ผลรวมอาจหาร 3 ไม่ลงตัว">
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Step 3: Explore -->
+            <div class="ideal-card" id="step3">
+                <div class="flex justify-between items-center">
+                    <h3 class="text-2xl font-bold text-blue-800">3. Explore: สำรวจแนวทาง</h3>
+                    <div class="ideal-letter">E</div>
+                </div>
+                <div class="interactive-section">
+                     <p class="font-medium text-gray-800 mb-2">ร่างขั้นตอนการแก้ไข (Algorithm/Pseudocode) ของคุณที่นี่</p>
+                     <textarea class="interactive-textarea" placeholder="เช่น
+1. รับค่าตัวเลข 3 ตัว
+2. นำตัวเลขมารวมกัน
+3. เปลี่ยนผลรวมให้เป็นเลขทศนิยมก่อนนำไปหาร
+4. ..."></textarea>
+                </div>
+            </div>
+
+            <!-- Step 4: Act -->
+            <div class="ideal-card" id="step4">
+                <div class="flex justify-between items-center">
+                    <h3 class="text-2xl font-bold text-blue-800">4. Act: ลงมือแก้ไข</h3>
+                    <div class="ideal-letter">A</div>
+                </div>
+                 <div class="interactive-section">
+                    <p class="font-medium text-gray-800 mb-2">แก้ไขโค้ดด้านล่างให้ทำงานถูกต้อง แล้วกด "Run Code"</p>
+                    <textarea id="code-input" class="interactive-textarea code-editor" rows="12">#include <stdio.h>
+
+int main() {
+    int a, b, c;
+    float avg;
+    printf("Enter three numbers: ");
+    scanf("%d %d %d", &a, &b, &c);
+    // Hint: ปัญหาอยู่ที่บรรทัดนี้!
+    avg = (a + b + c) / 3;
+    printf("Average: %.2f\n", avg);
+    return 0;
+}</textarea>
+                    <div class="mt-4">
+                        <button id="run-button" class="run-button">
+                            <i class="fa-solid fa-play"></i>
+                            Run Code
+                        </button>
+                    </div>
+                    <div id="output-box" class="output-box" style="display: none;"></div>
+                 </div>
+            </div>
+
+             <!-- Step 5: Look Back -->
+            <div class="ideal-card" id="step5">
+                <div class="flex justify-between items-center">
+                    <h3 class="text-2xl font-bold text-blue-800">5. Look Back: ทบทวนบทเรียน</h3>
+                    <div class="ideal-letter">L</div>
+                </div>
+                <div class="interactive-section">
+                     <p class="font-medium text-gray-800 mb-2">คุณได้เรียนรู้อะไรจากปัญหานี้?</p>
+                     <textarea class="interactive-textarea" placeholder="เช่น 'การหารเลขจำนวนเต็ม (int) ด้วยจำนวนเต็มในภาษา C จะได้ผลลัพธ์เป็นจำนวนเต็มเสมอ หากต้องการผลลัพธ์เป็นทศนิยม ต้องแปลงตัวใดตัวหนึ่งเป็น float ก่อน เช่นหารด้วย 3.0'"></textarea>
+                </div>
+            </div>
+
+        </div>
+    </main>
+    
+    <footer class="bg-blue-900 text-white py-10 px-4">
+        <div class="container mx-auto text-center text-blue-300 text-sm">
+            <p>© 2024 En-Code Learning Platform. สงวนลิขสิทธิ์.</p>
+        </div>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const runButton = document.getElementById('run-button');
+            const codeInput = document.getElementById('code-input');
+            const outputBox = document.getElementById('output-box');
+
+            runButton.addEventListener('click', function() {
+                const userCode = codeInput.value;
+                outputBox.style.display = 'block';
+
+                // Check for the correct solution: converting to float before division
+                // This can be done by dividing by 3.0 or by casting.
+                if (userCode.includes('/ 3.0') || userCode.includes('(float)')) {
+                    outputBox.className = 'output-box output-success';
+                    outputBox.innerHTML = `<strong>ผลลัพธ์ที่ถูกต้อง!</strong><br>> Enter three numbers: 10 10 11<br>> Average: 10.33`;
+                } else if (userCode.includes('/ 3')) {
+                     outputBox.className = 'output-box output-error';
+                    outputBox.innerHTML = `<strong>ยังไม่ถูกต้อง!</strong><br>> Enter three numbers: 10 10 11<br>> Average: 10.00<br><br><strong>คำใบ้:</strong> ลองนึกดูว่าเกิดอะไรขึ้นเมื่อนำ 'int' มาหารด้วย 'int' ในภาษา C`;
+                } else {
+                     outputBox.className = 'output-box output-error';
+                     outputBox.innerHTML = `<strong>เกิดข้อผิดพลาด!</strong><br>ดูเหมือนว่าโค้ดอาจมีปัญหา cú pháp (syntax) หรืออัลกอริทึมถูกเปลี่ยนไป ลองตรวจสอบอีกครั้ง`;
+                }
+            });
+        });
+    </script>
+</body>
+</html>

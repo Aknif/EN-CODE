@@ -25,7 +25,14 @@ def ask_ai_route():
         return jsonify({"error": "Google API Key is not configured."}), 500
 
     try:
-        genai.configure(api_key=GOOGLE_API_KEY)
+        import os
+
+# Load the API key from an environment variable
+GOOGLE_API_KEY = os.environ.get('GOOGLE_API_KEY')
+if not GOOGLE_API_KEY:
+    raise ValueError("No GOOGLE_API_KEY set for Flask application")
+
+genai.configure(api_key=GOOGLE_API_KEY)
         print("Google Gemini API Key configured successfully.")
         model = genai.GenerativeModel('models/gemini-1.5-flash-latest')
         data = request.get_json()
