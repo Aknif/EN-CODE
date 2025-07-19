@@ -38,7 +38,8 @@ document.addEventListener('DOMContentLoaded', function() {
             }
 
             try {
-                const response = await fetch('http://127.0.0.1:5500/login', {
+                // ***** แก้ไขบรรทัดนี้ *****
+                const response = await fetch('/login', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json'
@@ -127,7 +128,8 @@ document.addEventListener('DOMContentLoaded', function() {
             }
 
             try {
-                const response = await fetch('http://127.0.0.1:5500/register', {
+                // ***** แก้ไขบรรทัดนี้ *****
+                const response = await fetch('/register', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({ username, email, password })

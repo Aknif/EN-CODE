@@ -15,7 +15,8 @@ document.addEventListener('DOMContentLoaded', function() {
         dynamicElements.forEach(el => el.remove());
 
         try {
-            const response = await fetch('http://127.0.0.1:5500/check_auth_status', {
+            // ***** แก้ไขบรรทัดนี้ *****
+            const response = await fetch('/check_auth_status', {
                 method: 'GET',
                 credentials: 'include'
             });
@@ -126,7 +127,8 @@ document.addEventListener('DOMContentLoaded', function() {
     async function handleLogout(event) {
         event.preventDefault();
         try {
-            const response = await fetch('http://127.0.0.1:5500/logout', {
+            // ***** แก้ไขบรรทัดนี้ *****
+            const response = await fetch('/logout', {
                 method: 'POST',
                 credentials: 'include'
             });
