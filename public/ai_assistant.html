@@ -302,7 +302,7 @@
 
                 try {
                     // Replace with your actual API endpoint and key if necessary
-                    const response = await fetch('http://127.0.0.1:5000/ask-ai', { 
+                    const response = await fetch('/ask-ai', { 
                         method: 'POST',
                         headers: { 'Content-Type': 'application/json', },
                         body: JSON.stringify({ prompt: messageText, history: conversationHistory.slice(-6) }) // Send last 6 messages for context
